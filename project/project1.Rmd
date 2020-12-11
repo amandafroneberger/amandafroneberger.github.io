@@ -1,0 +1,149 @@
+---
+title: "Project 1"
+author: "Amanda Froneberger"
+date: "Due 10/18/2020 at 11:59 PM"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Project 1
+
+This analysis looks at the correlation between alcohol consumption and average measure of happiness per country and continent.
+
+---
+### Introduction:
+
+##### For this project I decided to combine two datasets in order to find if there is a correlation between happiness and alcohol consumption by country. The first dataset I found looks at the average happiness score on a scale of 1 to 10 per country, while also looking at other social factors like, GDP per capita, and social support that could offer potential correlations to the overall happiness level. The second dataset that I will be using looks at the average alcohol consumption per country, breaking up these drinks into categories of alcohol and average consumption. These datasets were found through the website kaggle, with the datasets imported into R. I thought these datasets would be an interesting thing to compare, as it will be able to show if alcohol has any correlation with not only perceived happiness, but also you can look at other variables such as strength of the economy and social satisfaction to see if there is a general trend in the data. When looking at this data, I think that there will be a positive correlation between happiness and alcohol consumption, as it could be perceived as being a luxury that people with comfortable life satisfaction experience.
+
+
+```{r}
+###I got the datasets from kaggle and then imported them into R through importing the files to a csv.
+
+library(dplyr)
+library(tidyverse)
+library(tidyr)
+library(readr)
+X2019 <- read_csv("2019.csv")
+Happiness<-X2019
+library(readr)
+Drinks<-read_csv("drinksbycountry.csv")
+
+head(Happiness)
+head(Drinks)
+summary(Happiness)
+summary(Drinks)
+```
+
+## Joining/Merging
+
+### For this step of analysis, the two datasets were merged together in order to have one coherent source of information to look at.
+
+```{r}
+names(Happiness)[names(Happiness) == "Country or region"] <- "country"
+Project1<-Happiness %>%inner_join (Drinks, by="country")
+
+```
+
+**For this an inner join was done, which means that rows were dropped from the dataset that were without a match corresponding to country. This means that no NAs are introduced into the new dataset, as all the unmatched rows are dropped. I chose this type of join in order to make analysis go more smoothly, but on the flip side this means that technically the results will not be as accurate as some countries may have been dropped**.
+
+
+
+##Wrangling
+
+### Now dplyr functions were used in order to look at the dataset further and generate summary statistics
+
+```{r}
+r = getOption("repos")
+r["CRAN"] = "http://cran.us.r-project.org"
+options(repos = r)
+
+
+Project1<-Project1%>% mutate(rate= Score/total_litres_of_pure_alcohol)
+Project1%>% group_by(continent)%>% summarize (mean_score=mean(Score), sd_score=sd(Score))%>%arrange(desc(mean_score))
+Project1%>% group_by(continent)%>% summarize (mean_alc=mean(total_litres_of_pure_alcohol), sd_alc= sd(total_litres_of_pure_alcohol))%>% arrange(desc(mean_alc))
+arrange(select(filter(Project1, continent=="Oceania"), country, Score, total_litres_of_pure_alcohol), desc(Score))
+arrange(select(filter(Project1, continent=="Africa"), country, Score, total_litres_of_pure_alcohol), desc(Score))
+Project1 %>% group_by(continent) %>% summarize(count=n())%>% head(6)
+
+Short_P2<-Project1%>% select(country, Score, "Social support", "GDP per capita","Perceptions of corruption", total_litres_of_pure_alcohol, continent)
+Short_P2%>% summarize_if(is.numeric,list(min=min, max=max, mean=mean, sd=sd, median=median),na.rm=T)
+cormat <- Short_P2 %>% select_if(is.numeric) %>% cor(use="pair")
+tidycor <- cormat %>% as.data.frame %>% rownames_to_column("var1") %>%pivot_longer(-1,names_to="var2",values_to="correlation")
+tidycor
+
+
+
+Sum_Stat_Group<-Short_P2%>% group_by(continent)%>% summarize_if(is.numeric,list(min=min, max=max, mean=mean, sd=sd, median=median),na.rm=T)
+install.packages("kableExtra")
+library(kableExtra)
+kbl(Sum_Stat_Group)
+kbl(Sum_Stat_Group) %>%kable_styling(bootstrap_options = c("striped", "hover"))
+flipped<-t(Sum_Stat_Group)
+kbl(flipped) %>%kable_styling(bootstrap_options = c("striped", "hover"))
+
+
+```
+ ** When doing the summary statistics, it was important for me to be looking at the summary statistics, especially for looking at alcohol consumption in comparison with overall happiness score. When looking at the different variables, I also thought it would be interesting to group them by continent in order to see the grouping better in terms of geographical location.I did not find it surprising that when looking at the data, it appeared that there was in fact a positive correlation when looking at total alcohol consumption and happiness score. The results ended up showing that the highest happiness score was for the continent Oceania, and the lowest was for Africa. These results also seemed to support my hypothesis about there being a positive correlation between happiness and alcohol, as Oceania came in with the highest mean for alcohol consumption, while Africa was second to last in front of Asia. This is also when I decided to use the function pivot_longer, as the dataset needed to be longer in order so that a better correlation trend could be seen. When pivot_longer was used, it made it so that instead of the data being more spread out, it is able to be seen in a more compact and convienient way for viewing. As my data was already fairly tidy at the start of the merging process, I decided that it would be more beneficial to use this function when doing summary statistics, as this is when the data was more spread out.  **
+
+##Visualizing Data
+
+
+```{r}
+Short_P2%>%select_if(is.numeric)%>%cor%>%as.data.frame%>%
+  rownames_to_column%>%pivot_longer(-1)%>%
+  ggplot(aes(rowname,name,fill=value))+geom_tile()+
+  geom_text(aes(label=round(value,2)))+
+  xlab("")+ylab("")+coord_fixed()+theme(axis.text.x = element_text(angle=90, hjust = 1))
+
+
+ggplot(Short_P2, aes(Score,total_litres_of_pure_alcohol))+
+  geom_point(aes(color=continent))+ggtitle( "Alcohol Consumption versus Happiness Score")+ xlab("Happiness Score")+ylab("Total Liters of Alcohol")
+
+
+
+ggplot(Sum_Stat_Group, aes(x=Score_mean, y=total_litres_of_pure_alcohol_mean, fill=continent))+
+  geom_bar(stat="summary",fun=mean)+scale_fill_brewer(palette="Accent")+ggtitle( "Average Alcohol Intake Comparison with Happiness Score")+ scale_x_discrete (name ="Score", breaks=seq(5,7.5,.5 ))+scale_y_discrete(name="Alcohol Consumption", breaks = seq(0, 10, 1))
+
+```
+
+
+**The first plot shows the correlation that exhists between the different variables of the joined dataset, with the darker the color, the less they have in common. As seen from the graph, the is not a lot of correlation in perception of corruption and the other variables, while the score of happiness is higher with the more positively assiciated variables such as social support. GDP per capita also has a high correlation rate with over all happiness score, which makes sense as a generla trend is having money means that life can be more comfortable.** 
+
+**The second graph shows the correlation between happiness and alcohol for the various continents. This shows that there is a general trend with Europe and Oceania having more positive correlations associated with greater happiness and higher alcohol intake. On the flip side of the graph, Asia and Africa have a wide spread in terms of both the score and total liters consumed, which could be due to the fact that there is a greater level of diversity that occurs in these regions. **
+
+**The final graph also shows more clearly that Oceania has the highest score and alcohol consumption level, which could also be due to the fact that only two countries were counted for the cluster. South Africa, Europe, and North America also have very similar scores in terms of Happiness, but differ a greater amount in the amount of aLcohol that is consumed. Lastly just like the previous graph, Africa comes in last with the lowest average happiness score, while Asia comes in last when looking at aLcohol consumption. ** 
+
+
+
+
+##Dimensionality Reduction
+## For this section k-means/ PAM clustering was done on a numeric dataset that had over three variables
+```{r}
+library(cluster)
+library(GGally)
+cluster1<-Short_P2%>%select(-country, -continent)%>% scale%>% pam(3)
+Short_P2%>% mutate(cluster=as.factor(cluster1$clustering))%>% ggpairs(columns= c("Score", "Social support", "GDP per capita", "Perceptions of corruption", "total_litres_of_pure_alcohol"), aes(color=cluster))
+ggplot(Short_P2, aes(x=Score,y=total_litres_of_pure_alcohol, color=continent))+geom_point()
+plot(cluster1,which=2)
+
+```
+
+** For this part of the analysis I used clustering in order to track goodness of fit in the dataset. This was done by using numeric variables and looking at their correlations with one another. These variables did not have a very strong correlation with one another as seen from the above graphs which show the trends that happen between variables. The spread is large and wide which causes the clusters and their summaries to be closer to .4 than 1 which would be a sign of obvious correlation. The greatest correlation found between variables was seen when looking at GDP per Capita and score, which is reasonable as money can have a direct and lasting impact on overall happiness in a person. The weakest correlation was found to be thoughts on corruption and alcohol consumption, which is somewhat surprising to me as I thought that they could have a positive trend due to intoxication causing people to do risky activities. **
+
+
+```{r}
+
+```
+
+
+
+
+
+
+
+

@@ -1,0 +1,2143 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Amanda Froneberger" />
+    
+    <link rel="shortcut icon" type="image/x-icon" href="../../img/favicon.ico">
+    <title>Project 1</title>
+    <meta name="generator" content="Hugo 0.79.0" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="../../css/main.css" />
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
+    
+    <!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+    
+  </head>
+
+  <body>
+    <div id="wrap">
+      
+      <nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="../../"><i class="fa fa-home"></i></a>
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="navbar-collapse collapse" id="navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+        <li><a href="../../post/">BLOG</a></li>
+        
+        <li><a href="../../projects/">PROJECTS</a></li>
+        
+        <li><a href="../../resume/">RESUME</a></li>
+        
+      
+      </ul>
+    </div>
+  </div>
+</nav>
+
+      <div class="container">
+        <div class="blog-post">
+          <h3>
+            <strong><a href="../../project/knit1/">Project 1</a></strong>
+          </h3>
+        </div>
+ 
+<div class="blog-title">
+          <h4>
+         January 1, 0001 
+            &nbsp;&nbsp;
+            
+          </h4>
+        </div>
+
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="blogpost">
+              
+<script src="../../rmarkdown-libs/kePrint/kePrint.js"></script>
+<link href="../../rmarkdown-libs/lightable/lightable.css" rel="stylesheet" />
+
+
+<div id="project-1" class="section level2">
+<h2>Project 1</h2>
+<p>This analysis looks at the correlation between alcohol consumption and average measure of happiness per country and continent.</p>
+<hr />
+<div id="introduction" class="section level3">
+<h3>Introduction:</h3>
+<div id="for-this-project-i-decided-to-combine-two-datasets-in-order-to-find-if-there-is-a-correlation-between-happiness-and-alcohol-consumption-by-country.-the-first-dataset-i-found-looks-at-the-average-happiness-score-on-a-scale-of-1-to-10-per-country-while-also-looking-at-other-social-factors-like-gdp-per-capita-and-social-support-that-could-offer-potential-correlations-to-the-overall-happiness-level.-the-second-dataset-that-i-will-be-using-looks-at-the-average-alcohol-consumption-per-country-breaking-up-these-drinks-into-categories-of-alcohol-and-average-consumption.-these-datasets-were-found-through-the-website-kaggle-with-the-datasets-imported-into-r.-i-thought-these-datasets-would-be-an-interesting-thing-to-compare-as-it-will-be-able-to-show-if-alcohol-has-any-correlation-with-not-only-perceived-happiness-but-also-you-can-look-at-other-variables-such-as-strength-of-the-economy-and-social-satisfaction-to-see-if-there-is-a-general-trend-in-the-data.-when-looking-at-this-data-i-think-that-there-will-be-a-positive-correlation-between-happiness-and-alcohol-consumption-as-it-could-be-perceived-as-being-a-luxury-that-people-with-comfortable-life-satisfaction-experience." class="section level5">
+<h5>For this project I decided to combine two datasets in order to find if there is a correlation between happiness and alcohol consumption by country. The first dataset I found looks at the average happiness score on a scale of 1 to 10 per country, while also looking at other social factors like, GDP per capita, and social support that could offer potential correlations to the overall happiness level. The second dataset that I will be using looks at the average alcohol consumption per country, breaking up these drinks into categories of alcohol and average consumption. These datasets were found through the website kaggle, with the datasets imported into R. I thought these datasets would be an interesting thing to compare, as it will be able to show if alcohol has any correlation with not only perceived happiness, but also you can look at other variables such as strength of the economy and social satisfaction to see if there is a general trend in the data. When looking at this data, I think that there will be a positive correlation between happiness and alcohol consumption, as it could be perceived as being a luxury that people with comfortable life satisfaction experience.</h5>
+<pre class="r"><code>###I got the datasets from kaggle and then imported them into R through importing the files to a csv.
+
+library(dplyr)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────── tidyverse 1.3.0 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.3.2     ✓ purrr   0.3.4
+## ✓ tibble  3.0.3     ✓ stringr 1.4.0
+## ✓ tidyr   1.1.1     ✓ forcats 0.5.0
+## ✓ readr   1.3.1</code></pre>
+<pre><code>## ── Conflicts ────────────────────────────────── tidyverse_conflicts() ──
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>library(tidyr)
+library(readr)
+X2019 &lt;- read_csv(&quot;2019.csv&quot;)</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   `Overall rank` = col_double(),
+##   `Country or region` = col_character(),
+##   Score = col_double(),
+##   `GDP per capita` = col_double(),
+##   `Social support` = col_double(),
+##   `Healthy life expectancy` = col_double(),
+##   `Freedom to make life choices` = col_double(),
+##   Generosity = col_double(),
+##   `Perceptions of corruption` = col_double()
+## )</code></pre>
+<pre class="r"><code>Happiness&lt;-X2019
+library(readr)
+Drinks&lt;-read_csv(&quot;drinksbycountry.csv&quot;)</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   country = col_character(),
+##   beer_servings = col_double(),
+##   spirit_servings = col_double(),
+##   wine_servings = col_double(),
+##   total_litres_of_pure_alcohol = col_double(),
+##   continent = col_character()
+## )</code></pre>
+<pre class="r"><code>head(Happiness)</code></pre>
+<pre><code>## # A tibble: 6 x 9
+##   `Overall rank` `Country or reg… Score `GDP per capita` `Social support`
+##            &lt;dbl&gt; &lt;chr&gt;            &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;
+## 1              1 Finland           7.77             1.34             1.59
+## 2              2 Denmark           7.6              1.38             1.57
+## 3              3 Norway            7.55             1.49             1.58
+## 4              4 Iceland           7.49             1.38             1.62
+## 5              5 Netherlands       7.49             1.40             1.52
+## 6              6 Switzerland       7.48             1.45             1.53
+## # … with 4 more variables: `Healthy life expectancy` &lt;dbl&gt;, `Freedom to make
+## #   life choices` &lt;dbl&gt;, Generosity &lt;dbl&gt;, `Perceptions of corruption` &lt;dbl&gt;</code></pre>
+<pre class="r"><code>head(Drinks)</code></pre>
+<pre><code>## # A tibble: 6 x 6
+##   country beer_servings spirit_servings wine_servings total_litres_of… continent
+##   &lt;chr&gt;           &lt;dbl&gt;           &lt;dbl&gt;         &lt;dbl&gt;            &lt;dbl&gt; &lt;chr&gt;    
+## 1 Afghan…             0               0             0              0   Asia     
+## 2 Albania            89             132            54              4.9 Europe   
+## 3 Algeria            25               0            14              0.7 Africa   
+## 4 Andorra           245             138           312             12.4 Europe   
+## 5 Angola            217              57            45              5.9 Africa   
+## 6 Antigu…           102             128            45              4.9 North Am…</code></pre>
+<pre class="r"><code>summary(Happiness)</code></pre>
+<pre><code>##   Overall rank    Country or region      Score       GDP per capita  
+##  Min.   :  1.00   Length:156         Min.   :2.853   Min.   :0.0000  
+##  1st Qu.: 39.75   Class :character   1st Qu.:4.545   1st Qu.:0.6028  
+##  Median : 78.50   Mode  :character   Median :5.380   Median :0.9600  
+##  Mean   : 78.50                      Mean   :5.407   Mean   :0.9051  
+##  3rd Qu.:117.25                      3rd Qu.:6.184   3rd Qu.:1.2325  
+##  Max.   :156.00                      Max.   :7.769   Max.   :1.6840  
+##  Social support  Healthy life expectancy Freedom to make life choices
+##  Min.   :0.000   Min.   :0.0000          Min.   :0.0000              
+##  1st Qu.:1.056   1st Qu.:0.5477          1st Qu.:0.3080              
+##  Median :1.272   Median :0.7890          Median :0.4170              
+##  Mean   :1.209   Mean   :0.7252          Mean   :0.3926              
+##  3rd Qu.:1.452   3rd Qu.:0.8818          3rd Qu.:0.5072              
+##  Max.   :1.624   Max.   :1.1410          Max.   :0.6310              
+##    Generosity     Perceptions of corruption
+##  Min.   :0.0000   Min.   :0.0000           
+##  1st Qu.:0.1087   1st Qu.:0.0470           
+##  Median :0.1775   Median :0.0855           
+##  Mean   :0.1848   Mean   :0.1106           
+##  3rd Qu.:0.2482   3rd Qu.:0.1412           
+##  Max.   :0.5660   Max.   :0.4530</code></pre>
+<pre class="r"><code>summary(Drinks)</code></pre>
+<pre><code>##    country          beer_servings   spirit_servings  wine_servings   
+##  Length:193         Min.   :  0.0   Min.   :  0.00   Min.   :  0.00  
+##  Class :character   1st Qu.: 20.0   1st Qu.:  4.00   1st Qu.:  1.00  
+##  Mode  :character   Median : 76.0   Median : 56.00   Median :  8.00  
+##                     Mean   :106.2   Mean   : 80.99   Mean   : 49.45  
+##                     3rd Qu.:188.0   3rd Qu.:128.00   3rd Qu.: 59.00  
+##                     Max.   :376.0   Max.   :438.00   Max.   :370.00  
+##  total_litres_of_pure_alcohol  continent        
+##  Min.   : 0.000               Length:193        
+##  1st Qu.: 1.300               Class :character  
+##  Median : 4.200               Mode  :character  
+##  Mean   : 4.717                                 
+##  3rd Qu.: 7.200                                 
+##  Max.   :14.400</code></pre>
+</div>
+</div>
+</div>
+<div id="joiningmerging" class="section level2">
+<h2>Joining/Merging</h2>
+<div id="for-this-step-of-analysis-the-two-datasets-were-merged-together-in-order-to-have-one-coherent-source-of-information-to-look-at." class="section level3">
+<h3>For this step of analysis, the two datasets were merged together in order to have one coherent source of information to look at.</h3>
+<pre class="r"><code>names(Happiness)[names(Happiness) == &quot;Country or region&quot;] &lt;- &quot;country&quot;
+Project1&lt;-Happiness %&gt;%inner_join (Drinks, by=&quot;country&quot;)</code></pre>
+<p><strong>For this an inner join was done, which means that rows were dropped from the dataset that were without a match corresponding to country. This means that no NAs are introduced into the new dataset, as all the unmatched rows are dropped. I chose this type of join in order to make analysis go more smoothly, but on the flip side this means that technically the results will not be as accurate as some countries may have been dropped</strong>.</p>
+</div>
+</div>
+<div id="wrangling" class="section level2">
+<h2>Wrangling</h2>
+<div id="now-dplyr-functions-were-used-in-order-to-look-at-the-dataset-further-and-generate-summary-statistics" class="section level3">
+<h3>Now dplyr functions were used in order to look at the dataset further and generate summary statistics</h3>
+<pre class="r"><code>r = getOption(&quot;repos&quot;)
+r[&quot;CRAN&quot;] = &quot;http://cran.us.r-project.org&quot;
+options(repos = r)
+
+
+Project1&lt;-Project1%&gt;% mutate(rate= Score/total_litres_of_pure_alcohol)
+Project1%&gt;% group_by(continent)%&gt;% summarize (mean_score=mean(Score), sd_score=sd(Score))%&gt;%arrange(desc(mean_score))</code></pre>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<pre><code>## # A tibble: 6 x 3
+##   continent     mean_score sd_score
+##   &lt;chr&gt;              &lt;dbl&gt;    &lt;dbl&gt;
+## 1 Oceania             7.27   0.0559
+## 2 Europe              6.22   0.955 
+## 3 North America       6.09   0.943 
+## 4 South America       5.92   0.496 
+## 5 Asia                5.25   0.909 
+## 6 Africa              4.38   0.620</code></pre>
+<pre class="r"><code>Project1%&gt;% group_by(continent)%&gt;% summarize (mean_alc=mean(total_litres_of_pure_alcohol), sd_alc= sd(total_litres_of_pure_alcohol))%&gt;% arrange(desc(mean_alc))</code></pre>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<pre><code>## # A tibble: 6 x 3
+##   continent     mean_alc sd_alc
+##   &lt;chr&gt;            &lt;dbl&gt;  &lt;dbl&gt;
+## 1 Oceania           9.85  0.778
+## 2 Europe            9.17  2.69 
+## 3 South America     6.3   1.66 
+## 4 North America     4.84  2.00 
+## 5 Africa            2.97  2.87 
+## 6 Asia              2.17  2.46</code></pre>
+<pre class="r"><code>arrange(select(filter(Project1, continent==&quot;Oceania&quot;), country, Score, total_litres_of_pure_alcohol), desc(Score))</code></pre>
+<pre><code>## # A tibble: 2 x 3
+##   country     Score total_litres_of_pure_alcohol
+##   &lt;chr&gt;       &lt;dbl&gt;                        &lt;dbl&gt;
+## 1 New Zealand  7.31                          9.3
+## 2 Australia    7.23                         10.4</code></pre>
+<pre class="r"><code>arrange(select(filter(Project1, continent==&quot;Africa&quot;), country, Score, total_litres_of_pure_alcohol), desc(Score))</code></pre>
+<pre><code>## # A tibble: 41 x 3
+##    country      Score total_litres_of_pure_alcohol
+##    &lt;chr&gt;        &lt;dbl&gt;                        &lt;dbl&gt;
+##  1 Mauritius     5.89                          2.6
+##  2 Libya         5.52                          0  
+##  3 Nigeria       5.26                          9.1
+##  4 Algeria       5.21                          0.7
+##  5 Morocco       5.21                          0.5
+##  6 Cameroon      5.04                          5.8
+##  7 Ghana         5.00                          1.8
+##  8 Benin         4.88                          1.1
+##  9 Gabon         4.80                          8.9
+## 10 South Africa  4.72                          8.2
+## # … with 31 more rows</code></pre>
+<pre class="r"><code>Project1 %&gt;% group_by(continent) %&gt;% summarize(count=n())%&gt;% head(6)</code></pre>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<pre><code>## # A tibble: 6 x 2
+##   continent     count
+##   &lt;chr&gt;         &lt;int&gt;
+## 1 Africa           41
+## 2 Asia             38
+## 3 Europe           40
+## 4 North America    12
+## 5 Oceania           2
+## 6 South America    10</code></pre>
+<pre class="r"><code>Short_P2&lt;-Project1%&gt;% select(country, Score, &quot;Social support&quot;, &quot;GDP per capita&quot;,&quot;Perceptions of corruption&quot;, total_litres_of_pure_alcohol, continent)
+Short_P2%&gt;% summarize_if(is.numeric,list(min=min, max=max, mean=mean, sd=sd, median=median),na.rm=T)</code></pre>
+<pre><code>## # A tibble: 1 x 25
+##   Score_min `Social support… `GDP per capita… `Perceptions of… total_litres_of…
+##       &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;
+## 1      3.08                0                0                0                0
+## # … with 20 more variables: Score_max &lt;dbl&gt;, `Social support_max` &lt;dbl&gt;, `GDP
+## #   per capita_max` &lt;dbl&gt;, `Perceptions of corruption_max` &lt;dbl&gt;,
+## #   total_litres_of_pure_alcohol_max &lt;dbl&gt;, Score_mean &lt;dbl&gt;, `Social
+## #   support_mean` &lt;dbl&gt;, `GDP per capita_mean` &lt;dbl&gt;, `Perceptions of
+## #   corruption_mean` &lt;dbl&gt;, total_litres_of_pure_alcohol_mean &lt;dbl&gt;,
+## #   Score_sd &lt;dbl&gt;, `Social support_sd` &lt;dbl&gt;, `GDP per capita_sd` &lt;dbl&gt;,
+## #   `Perceptions of corruption_sd` &lt;dbl&gt;,
+## #   total_litres_of_pure_alcohol_sd &lt;dbl&gt;, Score_median &lt;dbl&gt;, `Social
+## #   support_median` &lt;dbl&gt;, `GDP per capita_median` &lt;dbl&gt;, `Perceptions of
+## #   corruption_median` &lt;dbl&gt;, total_litres_of_pure_alcohol_median &lt;dbl&gt;</code></pre>
+<pre class="r"><code>cormat &lt;- Short_P2 %&gt;% select_if(is.numeric) %&gt;% cor(use=&quot;pair&quot;)
+tidycor &lt;- cormat %&gt;% as.data.frame %&gt;% rownames_to_column(&quot;var1&quot;) %&gt;%pivot_longer(-1,names_to=&quot;var2&quot;,values_to=&quot;correlation&quot;)
+tidycor</code></pre>
+<pre><code>## # A tibble: 25 x 3
+##    var1           var2                         correlation
+##    &lt;chr&gt;          &lt;chr&gt;                              &lt;dbl&gt;
+##  1 Score          Score                              1    
+##  2 Score          Social support                     0.774
+##  3 Score          GDP per capita                     0.794
+##  4 Score          Perceptions of corruption          0.403
+##  5 Score          total_litres_of_pure_alcohol       0.501
+##  6 Social support Score                              0.774
+##  7 Social support Social support                     1    
+##  8 Social support GDP per capita                     0.759
+##  9 Social support Perceptions of corruption          0.189
+## 10 Social support total_litres_of_pure_alcohol       0.531
+## # … with 15 more rows</code></pre>
+<pre class="r"><code>Sum_Stat_Group&lt;-Short_P2%&gt;% group_by(continent)%&gt;% summarize_if(is.numeric,list(min=min, max=max, mean=mean, sd=sd, median=median),na.rm=T)
+install.packages(&quot;kableExtra&quot;)</code></pre>
+<pre><code>## Installing package into &#39;/stor/home/aff395/R/x86_64-pc-linux-gnu-library/3.6&#39;
+## (as &#39;lib&#39; is unspecified)</code></pre>
+<pre class="r"><code>library(kableExtra)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;kableExtra&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     group_rows</code></pre>
+<pre class="r"><code>kbl(Sum_Stat_Group)</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+continent
+</th>
+<th style="text-align:right;">
+Score_min
+</th>
+<th style="text-align:right;">
+Social support_min
+</th>
+<th style="text-align:right;">
+GDP per capita_min
+</th>
+<th style="text-align:right;">
+Perceptions of corruption_min
+</th>
+<th style="text-align:right;">
+total_litres_of_pure_alcohol_min
+</th>
+<th style="text-align:right;">
+Score_max
+</th>
+<th style="text-align:right;">
+Social support_max
+</th>
+<th style="text-align:right;">
+GDP per capita_max
+</th>
+<th style="text-align:right;">
+Perceptions of corruption_max
+</th>
+<th style="text-align:right;">
+total_litres_of_pure_alcohol_max
+</th>
+<th style="text-align:right;">
+Score_mean
+</th>
+<th style="text-align:right;">
+Social support_mean
+</th>
+<th style="text-align:right;">
+GDP per capita_mean
+</th>
+<th style="text-align:right;">
+Perceptions of corruption_mean
+</th>
+<th style="text-align:right;">
+total_litres_of_pure_alcohol_mean
+</th>
+<th style="text-align:right;">
+Score_sd
+</th>
+<th style="text-align:right;">
+Social support_sd
+</th>
+<th style="text-align:right;">
+GDP per capita_sd
+</th>
+<th style="text-align:right;">
+Perceptions of corruption_sd
+</th>
+<th style="text-align:right;">
+total_litres_of_pure_alcohol_sd
+</th>
+<th style="text-align:right;">
+Score_median
+</th>
+<th style="text-align:right;">
+Social support_median
+</th>
+<th style="text-align:right;">
+GDP per capita_median
+</th>
+<th style="text-align:right;">
+Perceptions of corruption_median
+</th>
+<th style="text-align:right;">
+total_litres_of_pure_alcohol_median
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Africa
+</td>
+<td style="text-align:right;">
+3.083
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+0.033
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+5.888
+</td>
+<td style="text-align:right;">
+1.402
+</td>
+<td style="text-align:right;">
+1.120
+</td>
+<td style="text-align:right;">
+0.411
+</td>
+<td style="text-align:right;">
+9.1
+</td>
+<td style="text-align:right;">
+4.379171
+</td>
+<td style="text-align:right;">
+0.9425366
+</td>
+<td style="text-align:right;">
+0.5070488
+</td>
+<td style="text-align:right;">
+0.0955366
+</td>
+<td style="text-align:right;">
+2.965854
+</td>
+<td style="text-align:right;">
+0.6204616
+</td>
+<td style="text-align:right;">
+0.2767419
+</td>
+<td style="text-align:right;">
+0.3199566
+</td>
+<td style="text-align:right;">
+0.0689935
+</td>
+<td style="text-align:right;">
+2.8704189
+</td>
+<td style="text-align:right;">
+4.4610
+</td>
+<td style="text-align:right;">
+0.9860
+</td>
+<td style="text-align:right;">
+0.3930
+</td>
+<td style="text-align:right;">
+0.0820
+</td>
+<td style="text-align:right;">
+1.80
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:right;">
+3.203
+</td>
+<td style="text-align:right;">
+0.378
+</td>
+<td style="text-align:right;">
+0.287
+</td>
+<td style="text-align:right;">
+0.023
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+7.139
+</td>
+<td style="text-align:right;">
+1.538
+</td>
+<td style="text-align:right;">
+1.684
+</td>
+<td style="text-align:right;">
+0.453
+</td>
+<td style="text-align:right;">
+9.8
+</td>
+<td style="text-align:right;">
+5.252684
+</td>
+<td style="text-align:right;">
+1.2059211
+</td>
+<td style="text-align:right;">
+0.9559211
+</td>
+<td style="text-align:right;">
+0.1077632
+</td>
+<td style="text-align:right;">
+2.173684
+</td>
+<td style="text-align:right;">
+0.9092369
+</td>
+<td style="text-align:right;">
+0.2656336
+</td>
+<td style="text-align:right;">
+0.3557148
+</td>
+<td style="text-align:right;">
+0.0783310
+</td>
+<td style="text-align:right;">
+2.4638669
+</td>
+<td style="text-align:right;">
+5.2540
+</td>
+<td style="text-align:right;">
+1.2455
+</td>
+<td style="text-align:right;">
+0.9485
+</td>
+<td style="text-align:right;">
+0.0975
+</td>
+<td style="text-align:right;">
+1.70
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Europe
+</td>
+<td style="text-align:right;">
+4.332
+</td>
+<td style="text-align:right;">
+0.666
+</td>
+<td style="text-align:right;">
+0.685
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+1.3
+</td>
+<td style="text-align:right;">
+7.769
+</td>
+<td style="text-align:right;">
+1.624
+</td>
+<td style="text-align:right;">
+1.609
+</td>
+<td style="text-align:right;">
+0.410
+</td>
+<td style="text-align:right;">
+14.4
+</td>
+<td style="text-align:right;">
+6.222150
+</td>
+<td style="text-align:right;">
+1.4050500
+</td>
+<td style="text-align:right;">
+1.2211250
+</td>
+<td style="text-align:right;">
+0.1401750
+</td>
+<td style="text-align:right;">
+9.172500
+</td>
+<td style="text-align:right;">
+0.9546531
+</td>
+<td style="text-align:right;">
+0.1990633
+</td>
+<td style="text-align:right;">
+0.1973894
+</td>
+<td style="text-align:right;">
+0.1291874
+</td>
+<td style="text-align:right;">
+2.6925336
+</td>
+<td style="text-align:right;">
+6.1655
+</td>
+<td style="text-align:right;">
+1.4770
+</td>
+<td style="text-align:right;">
+1.2520
+</td>
+<td style="text-align:right;">
+0.0795
+</td>
+<td style="text-align:right;">
+10.10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+North America
+</td>
+<td style="text-align:right;">
+3.597
+</td>
+<td style="text-align:right;">
+0.688
+</td>
+<td style="text-align:right;">
+0.323
+</td>
+<td style="text-align:right;">
+0.016
+</td>
+<td style="text-align:right;">
+2.2
+</td>
+<td style="text-align:right;">
+7.278
+</td>
+<td style="text-align:right;">
+1.505
+</td>
+<td style="text-align:right;">
+1.365
+</td>
+<td style="text-align:right;">
+0.308
+</td>
+<td style="text-align:right;">
+8.2
+</td>
+<td style="text-align:right;">
+6.093250
+</td>
+<td style="text-align:right;">
+1.3189167
+</td>
+<td style="text-align:right;">
+0.9123333
+</td>
+<td style="text-align:right;">
+0.0950000
+</td>
+<td style="text-align:right;">
+4.841667
+</td>
+<td style="text-align:right;">
+0.9432353
+</td>
+<td style="text-align:right;">
+0.2205590
+</td>
+<td style="text-align:right;">
+0.2882500
+</td>
+<td style="text-align:right;">
+0.0742061
+</td>
+<td style="text-align:right;">
+2.0020255
+</td>
+<td style="text-align:right;">
+6.2225
+</td>
+<td style="text-align:right;">
+1.3630
+</td>
+<td style="text-align:right;">
+0.9230
+</td>
+<td style="text-align:right;">
+0.0780
+</td>
+<td style="text-align:right;">
+4.95
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Oceania
+</td>
+<td style="text-align:right;">
+7.228
+</td>
+<td style="text-align:right;">
+1.548
+</td>
+<td style="text-align:right;">
+1.303
+</td>
+<td style="text-align:right;">
+0.290
+</td>
+<td style="text-align:right;">
+9.3
+</td>
+<td style="text-align:right;">
+7.307
+</td>
+<td style="text-align:right;">
+1.557
+</td>
+<td style="text-align:right;">
+1.372
+</td>
+<td style="text-align:right;">
+0.380
+</td>
+<td style="text-align:right;">
+10.4
+</td>
+<td style="text-align:right;">
+7.267500
+</td>
+<td style="text-align:right;">
+1.5525000
+</td>
+<td style="text-align:right;">
+1.3375000
+</td>
+<td style="text-align:right;">
+0.3350000
+</td>
+<td style="text-align:right;">
+9.850000
+</td>
+<td style="text-align:right;">
+0.0558614
+</td>
+<td style="text-align:right;">
+0.0063640
+</td>
+<td style="text-align:right;">
+0.0487904
+</td>
+<td style="text-align:right;">
+0.0636396
+</td>
+<td style="text-align:right;">
+0.7778175
+</td>
+<td style="text-align:right;">
+7.2675
+</td>
+<td style="text-align:right;">
+1.5525
+</td>
+<td style="text-align:right;">
+1.3375
+</td>
+<td style="text-align:right;">
+0.3350
+</td>
+<td style="text-align:right;">
+9.85
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+South America
+</td>
+<td style="text-align:right;">
+4.707
+</td>
+<td style="text-align:right;">
+1.209
+</td>
+<td style="text-align:right;">
+0.776
+</td>
+<td style="text-align:right;">
+0.027
+</td>
+<td style="text-align:right;">
+3.8
+</td>
+<td style="text-align:right;">
+6.444
+</td>
+<td style="text-align:right;">
+1.475
+</td>
+<td style="text-align:right;">
+1.159
+</td>
+<td style="text-align:right;">
+0.150
+</td>
+<td style="text-align:right;">
+8.3
+</td>
+<td style="text-align:right;">
+5.920200
+</td>
+<td style="text-align:right;">
+1.3812000
+</td>
+<td style="text-align:right;">
+0.9827000
+</td>
+<td style="text-align:right;">
+0.0681000
+</td>
+<td style="text-align:right;">
+6.300000
+</td>
+<td style="text-align:right;">
+0.4957214
+</td>
+<td style="text-align:right;">
+0.0886639
+</td>
+<td style="text-align:right;">
+0.1194962
+</td>
+<td style="text-align:right;">
+0.0354572
+</td>
+<td style="text-align:right;">
+1.6552945
+</td>
+<td style="text-align:right;">
+6.0570
+</td>
+<td style="text-align:right;">
+1.4185
+</td>
+<td style="text-align:right;">
+0.9725
+</td>
+<td style="text-align:right;">
+0.0600
+</td>
+<td style="text-align:right;">
+6.90
+</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>kbl(Sum_Stat_Group) %&gt;%kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;))</code></pre>
+<table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+continent
+</th>
+<th style="text-align:right;">
+Score_min
+</th>
+<th style="text-align:right;">
+Social support_min
+</th>
+<th style="text-align:right;">
+GDP per capita_min
+</th>
+<th style="text-align:right;">
+Perceptions of corruption_min
+</th>
+<th style="text-align:right;">
+total_litres_of_pure_alcohol_min
+</th>
+<th style="text-align:right;">
+Score_max
+</th>
+<th style="text-align:right;">
+Social support_max
+</th>
+<th style="text-align:right;">
+GDP per capita_max
+</th>
+<th style="text-align:right;">
+Perceptions of corruption_max
+</th>
+<th style="text-align:right;">
+total_litres_of_pure_alcohol_max
+</th>
+<th style="text-align:right;">
+Score_mean
+</th>
+<th style="text-align:right;">
+Social support_mean
+</th>
+<th style="text-align:right;">
+GDP per capita_mean
+</th>
+<th style="text-align:right;">
+Perceptions of corruption_mean
+</th>
+<th style="text-align:right;">
+total_litres_of_pure_alcohol_mean
+</th>
+<th style="text-align:right;">
+Score_sd
+</th>
+<th style="text-align:right;">
+Social support_sd
+</th>
+<th style="text-align:right;">
+GDP per capita_sd
+</th>
+<th style="text-align:right;">
+Perceptions of corruption_sd
+</th>
+<th style="text-align:right;">
+total_litres_of_pure_alcohol_sd
+</th>
+<th style="text-align:right;">
+Score_median
+</th>
+<th style="text-align:right;">
+Social support_median
+</th>
+<th style="text-align:right;">
+GDP per capita_median
+</th>
+<th style="text-align:right;">
+Perceptions of corruption_median
+</th>
+<th style="text-align:right;">
+total_litres_of_pure_alcohol_median
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Africa
+</td>
+<td style="text-align:right;">
+3.083
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+0.033
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+5.888
+</td>
+<td style="text-align:right;">
+1.402
+</td>
+<td style="text-align:right;">
+1.120
+</td>
+<td style="text-align:right;">
+0.411
+</td>
+<td style="text-align:right;">
+9.1
+</td>
+<td style="text-align:right;">
+4.379171
+</td>
+<td style="text-align:right;">
+0.9425366
+</td>
+<td style="text-align:right;">
+0.5070488
+</td>
+<td style="text-align:right;">
+0.0955366
+</td>
+<td style="text-align:right;">
+2.965854
+</td>
+<td style="text-align:right;">
+0.6204616
+</td>
+<td style="text-align:right;">
+0.2767419
+</td>
+<td style="text-align:right;">
+0.3199566
+</td>
+<td style="text-align:right;">
+0.0689935
+</td>
+<td style="text-align:right;">
+2.8704189
+</td>
+<td style="text-align:right;">
+4.4610
+</td>
+<td style="text-align:right;">
+0.9860
+</td>
+<td style="text-align:right;">
+0.3930
+</td>
+<td style="text-align:right;">
+0.0820
+</td>
+<td style="text-align:right;">
+1.80
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:right;">
+3.203
+</td>
+<td style="text-align:right;">
+0.378
+</td>
+<td style="text-align:right;">
+0.287
+</td>
+<td style="text-align:right;">
+0.023
+</td>
+<td style="text-align:right;">
+0.0
+</td>
+<td style="text-align:right;">
+7.139
+</td>
+<td style="text-align:right;">
+1.538
+</td>
+<td style="text-align:right;">
+1.684
+</td>
+<td style="text-align:right;">
+0.453
+</td>
+<td style="text-align:right;">
+9.8
+</td>
+<td style="text-align:right;">
+5.252684
+</td>
+<td style="text-align:right;">
+1.2059211
+</td>
+<td style="text-align:right;">
+0.9559211
+</td>
+<td style="text-align:right;">
+0.1077632
+</td>
+<td style="text-align:right;">
+2.173684
+</td>
+<td style="text-align:right;">
+0.9092369
+</td>
+<td style="text-align:right;">
+0.2656336
+</td>
+<td style="text-align:right;">
+0.3557148
+</td>
+<td style="text-align:right;">
+0.0783310
+</td>
+<td style="text-align:right;">
+2.4638669
+</td>
+<td style="text-align:right;">
+5.2540
+</td>
+<td style="text-align:right;">
+1.2455
+</td>
+<td style="text-align:right;">
+0.9485
+</td>
+<td style="text-align:right;">
+0.0975
+</td>
+<td style="text-align:right;">
+1.70
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Europe
+</td>
+<td style="text-align:right;">
+4.332
+</td>
+<td style="text-align:right;">
+0.666
+</td>
+<td style="text-align:right;">
+0.685
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+1.3
+</td>
+<td style="text-align:right;">
+7.769
+</td>
+<td style="text-align:right;">
+1.624
+</td>
+<td style="text-align:right;">
+1.609
+</td>
+<td style="text-align:right;">
+0.410
+</td>
+<td style="text-align:right;">
+14.4
+</td>
+<td style="text-align:right;">
+6.222150
+</td>
+<td style="text-align:right;">
+1.4050500
+</td>
+<td style="text-align:right;">
+1.2211250
+</td>
+<td style="text-align:right;">
+0.1401750
+</td>
+<td style="text-align:right;">
+9.172500
+</td>
+<td style="text-align:right;">
+0.9546531
+</td>
+<td style="text-align:right;">
+0.1990633
+</td>
+<td style="text-align:right;">
+0.1973894
+</td>
+<td style="text-align:right;">
+0.1291874
+</td>
+<td style="text-align:right;">
+2.6925336
+</td>
+<td style="text-align:right;">
+6.1655
+</td>
+<td style="text-align:right;">
+1.4770
+</td>
+<td style="text-align:right;">
+1.2520
+</td>
+<td style="text-align:right;">
+0.0795
+</td>
+<td style="text-align:right;">
+10.10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+North America
+</td>
+<td style="text-align:right;">
+3.597
+</td>
+<td style="text-align:right;">
+0.688
+</td>
+<td style="text-align:right;">
+0.323
+</td>
+<td style="text-align:right;">
+0.016
+</td>
+<td style="text-align:right;">
+2.2
+</td>
+<td style="text-align:right;">
+7.278
+</td>
+<td style="text-align:right;">
+1.505
+</td>
+<td style="text-align:right;">
+1.365
+</td>
+<td style="text-align:right;">
+0.308
+</td>
+<td style="text-align:right;">
+8.2
+</td>
+<td style="text-align:right;">
+6.093250
+</td>
+<td style="text-align:right;">
+1.3189167
+</td>
+<td style="text-align:right;">
+0.9123333
+</td>
+<td style="text-align:right;">
+0.0950000
+</td>
+<td style="text-align:right;">
+4.841667
+</td>
+<td style="text-align:right;">
+0.9432353
+</td>
+<td style="text-align:right;">
+0.2205590
+</td>
+<td style="text-align:right;">
+0.2882500
+</td>
+<td style="text-align:right;">
+0.0742061
+</td>
+<td style="text-align:right;">
+2.0020255
+</td>
+<td style="text-align:right;">
+6.2225
+</td>
+<td style="text-align:right;">
+1.3630
+</td>
+<td style="text-align:right;">
+0.9230
+</td>
+<td style="text-align:right;">
+0.0780
+</td>
+<td style="text-align:right;">
+4.95
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Oceania
+</td>
+<td style="text-align:right;">
+7.228
+</td>
+<td style="text-align:right;">
+1.548
+</td>
+<td style="text-align:right;">
+1.303
+</td>
+<td style="text-align:right;">
+0.290
+</td>
+<td style="text-align:right;">
+9.3
+</td>
+<td style="text-align:right;">
+7.307
+</td>
+<td style="text-align:right;">
+1.557
+</td>
+<td style="text-align:right;">
+1.372
+</td>
+<td style="text-align:right;">
+0.380
+</td>
+<td style="text-align:right;">
+10.4
+</td>
+<td style="text-align:right;">
+7.267500
+</td>
+<td style="text-align:right;">
+1.5525000
+</td>
+<td style="text-align:right;">
+1.3375000
+</td>
+<td style="text-align:right;">
+0.3350000
+</td>
+<td style="text-align:right;">
+9.850000
+</td>
+<td style="text-align:right;">
+0.0558614
+</td>
+<td style="text-align:right;">
+0.0063640
+</td>
+<td style="text-align:right;">
+0.0487904
+</td>
+<td style="text-align:right;">
+0.0636396
+</td>
+<td style="text-align:right;">
+0.7778175
+</td>
+<td style="text-align:right;">
+7.2675
+</td>
+<td style="text-align:right;">
+1.5525
+</td>
+<td style="text-align:right;">
+1.3375
+</td>
+<td style="text-align:right;">
+0.3350
+</td>
+<td style="text-align:right;">
+9.85
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+South America
+</td>
+<td style="text-align:right;">
+4.707
+</td>
+<td style="text-align:right;">
+1.209
+</td>
+<td style="text-align:right;">
+0.776
+</td>
+<td style="text-align:right;">
+0.027
+</td>
+<td style="text-align:right;">
+3.8
+</td>
+<td style="text-align:right;">
+6.444
+</td>
+<td style="text-align:right;">
+1.475
+</td>
+<td style="text-align:right;">
+1.159
+</td>
+<td style="text-align:right;">
+0.150
+</td>
+<td style="text-align:right;">
+8.3
+</td>
+<td style="text-align:right;">
+5.920200
+</td>
+<td style="text-align:right;">
+1.3812000
+</td>
+<td style="text-align:right;">
+0.9827000
+</td>
+<td style="text-align:right;">
+0.0681000
+</td>
+<td style="text-align:right;">
+6.300000
+</td>
+<td style="text-align:right;">
+0.4957214
+</td>
+<td style="text-align:right;">
+0.0886639
+</td>
+<td style="text-align:right;">
+0.1194962
+</td>
+<td style="text-align:right;">
+0.0354572
+</td>
+<td style="text-align:right;">
+1.6552945
+</td>
+<td style="text-align:right;">
+6.0570
+</td>
+<td style="text-align:right;">
+1.4185
+</td>
+<td style="text-align:right;">
+0.9725
+</td>
+<td style="text-align:right;">
+0.0600
+</td>
+<td style="text-align:right;">
+6.90
+</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>flipped&lt;-t(Sum_Stat_Group)
+kbl(flipped) %&gt;%kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;hover&quot;))</code></pre>
+<table class="table table-striped table-hover" style="margin-left: auto; margin-right: auto;">
+<tbody>
+<tr>
+<td style="text-align:left;">
+continent
+</td>
+<td style="text-align:left;">
+Africa
+</td>
+<td style="text-align:left;">
+Asia
+</td>
+<td style="text-align:left;">
+Europe
+</td>
+<td style="text-align:left;">
+North America
+</td>
+<td style="text-align:left;">
+Oceania
+</td>
+<td style="text-align:left;">
+South America
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Score_min
+</td>
+<td style="text-align:left;">
+3.083
+</td>
+<td style="text-align:left;">
+3.203
+</td>
+<td style="text-align:left;">
+4.332
+</td>
+<td style="text-align:left;">
+3.597
+</td>
+<td style="text-align:left;">
+7.228
+</td>
+<td style="text-align:left;">
+4.707
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Social support_min
+</td>
+<td style="text-align:left;">
+0.000
+</td>
+<td style="text-align:left;">
+0.378
+</td>
+<td style="text-align:left;">
+0.666
+</td>
+<td style="text-align:left;">
+0.688
+</td>
+<td style="text-align:left;">
+1.548
+</td>
+<td style="text-align:left;">
+1.209
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+GDP per capita_min
+</td>
+<td style="text-align:left;">
+0.000
+</td>
+<td style="text-align:left;">
+0.287
+</td>
+<td style="text-align:left;">
+0.685
+</td>
+<td style="text-align:left;">
+0.323
+</td>
+<td style="text-align:left;">
+1.303
+</td>
+<td style="text-align:left;">
+0.776
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Perceptions of corruption_min
+</td>
+<td style="text-align:left;">
+0.033
+</td>
+<td style="text-align:left;">
+0.023
+</td>
+<td style="text-align:left;">
+0.000
+</td>
+<td style="text-align:left;">
+0.016
+</td>
+<td style="text-align:left;">
+0.290
+</td>
+<td style="text-align:left;">
+0.027
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+total_litres_of_pure_alcohol_min
+</td>
+<td style="text-align:left;">
+0.0
+</td>
+<td style="text-align:left;">
+0.0
+</td>
+<td style="text-align:left;">
+1.3
+</td>
+<td style="text-align:left;">
+2.2
+</td>
+<td style="text-align:left;">
+9.3
+</td>
+<td style="text-align:left;">
+3.8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Score_max
+</td>
+<td style="text-align:left;">
+5.888
+</td>
+<td style="text-align:left;">
+7.139
+</td>
+<td style="text-align:left;">
+7.769
+</td>
+<td style="text-align:left;">
+7.278
+</td>
+<td style="text-align:left;">
+7.307
+</td>
+<td style="text-align:left;">
+6.444
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Social support_max
+</td>
+<td style="text-align:left;">
+1.402
+</td>
+<td style="text-align:left;">
+1.538
+</td>
+<td style="text-align:left;">
+1.624
+</td>
+<td style="text-align:left;">
+1.505
+</td>
+<td style="text-align:left;">
+1.557
+</td>
+<td style="text-align:left;">
+1.475
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+GDP per capita_max
+</td>
+<td style="text-align:left;">
+1.120
+</td>
+<td style="text-align:left;">
+1.684
+</td>
+<td style="text-align:left;">
+1.609
+</td>
+<td style="text-align:left;">
+1.365
+</td>
+<td style="text-align:left;">
+1.372
+</td>
+<td style="text-align:left;">
+1.159
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Perceptions of corruption_max
+</td>
+<td style="text-align:left;">
+0.411
+</td>
+<td style="text-align:left;">
+0.453
+</td>
+<td style="text-align:left;">
+0.410
+</td>
+<td style="text-align:left;">
+0.308
+</td>
+<td style="text-align:left;">
+0.380
+</td>
+<td style="text-align:left;">
+0.150
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+total_litres_of_pure_alcohol_max
+</td>
+<td style="text-align:left;">
+9.1
+</td>
+<td style="text-align:left;">
+9.8
+</td>
+<td style="text-align:left;">
+14.4
+</td>
+<td style="text-align:left;">
+8.2
+</td>
+<td style="text-align:left;">
+10.4
+</td>
+<td style="text-align:left;">
+8.3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Score_mean
+</td>
+<td style="text-align:left;">
+4.379171
+</td>
+<td style="text-align:left;">
+5.252684
+</td>
+<td style="text-align:left;">
+6.222150
+</td>
+<td style="text-align:left;">
+6.093250
+</td>
+<td style="text-align:left;">
+7.267500
+</td>
+<td style="text-align:left;">
+5.920200
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Social support_mean
+</td>
+<td style="text-align:left;">
+0.9425366
+</td>
+<td style="text-align:left;">
+1.2059211
+</td>
+<td style="text-align:left;">
+1.4050500
+</td>
+<td style="text-align:left;">
+1.3189167
+</td>
+<td style="text-align:left;">
+1.5525000
+</td>
+<td style="text-align:left;">
+1.3812000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+GDP per capita_mean
+</td>
+<td style="text-align:left;">
+0.5070488
+</td>
+<td style="text-align:left;">
+0.9559211
+</td>
+<td style="text-align:left;">
+1.2211250
+</td>
+<td style="text-align:left;">
+0.9123333
+</td>
+<td style="text-align:left;">
+1.3375000
+</td>
+<td style="text-align:left;">
+0.9827000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Perceptions of corruption_mean
+</td>
+<td style="text-align:left;">
+0.09553659
+</td>
+<td style="text-align:left;">
+0.10776316
+</td>
+<td style="text-align:left;">
+0.14017500
+</td>
+<td style="text-align:left;">
+0.09500000
+</td>
+<td style="text-align:left;">
+0.33500000
+</td>
+<td style="text-align:left;">
+0.06810000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+total_litres_of_pure_alcohol_mean
+</td>
+<td style="text-align:left;">
+2.965854
+</td>
+<td style="text-align:left;">
+2.173684
+</td>
+<td style="text-align:left;">
+9.172500
+</td>
+<td style="text-align:left;">
+4.841667
+</td>
+<td style="text-align:left;">
+9.850000
+</td>
+<td style="text-align:left;">
+6.300000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Score_sd
+</td>
+<td style="text-align:left;">
+0.62046160
+</td>
+<td style="text-align:left;">
+0.90923687
+</td>
+<td style="text-align:left;">
+0.95465313
+</td>
+<td style="text-align:left;">
+0.94323526
+</td>
+<td style="text-align:left;">
+0.05586144
+</td>
+<td style="text-align:left;">
+0.49572143
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Social support_sd
+</td>
+<td style="text-align:left;">
+0.276741856
+</td>
+<td style="text-align:left;">
+0.265633601
+</td>
+<td style="text-align:left;">
+0.199063313
+</td>
+<td style="text-align:left;">
+0.220558983
+</td>
+<td style="text-align:left;">
+0.006363961
+</td>
+<td style="text-align:left;">
+0.088663910
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+GDP per capita_sd
+</td>
+<td style="text-align:left;">
+0.31995656
+</td>
+<td style="text-align:left;">
+0.35571484
+</td>
+<td style="text-align:left;">
+0.19738940
+</td>
+<td style="text-align:left;">
+0.28825000
+</td>
+<td style="text-align:left;">
+0.04879037
+</td>
+<td style="text-align:left;">
+0.11949621
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Perceptions of corruption_sd
+</td>
+<td style="text-align:left;">
+0.06899351
+</td>
+<td style="text-align:left;">
+0.07833105
+</td>
+<td style="text-align:left;">
+0.12918738
+</td>
+<td style="text-align:left;">
+0.07420610
+</td>
+<td style="text-align:left;">
+0.06363961
+</td>
+<td style="text-align:left;">
+0.03545717
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+total_litres_of_pure_alcohol_sd
+</td>
+<td style="text-align:left;">
+2.8704189
+</td>
+<td style="text-align:left;">
+2.4638669
+</td>
+<td style="text-align:left;">
+2.6925336
+</td>
+<td style="text-align:left;">
+2.0020255
+</td>
+<td style="text-align:left;">
+0.7778175
+</td>
+<td style="text-align:left;">
+1.6552945
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Score_median
+</td>
+<td style="text-align:left;">
+4.4610
+</td>
+<td style="text-align:left;">
+5.2540
+</td>
+<td style="text-align:left;">
+6.1655
+</td>
+<td style="text-align:left;">
+6.2225
+</td>
+<td style="text-align:left;">
+7.2675
+</td>
+<td style="text-align:left;">
+6.0570
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Social support_median
+</td>
+<td style="text-align:left;">
+0.9860
+</td>
+<td style="text-align:left;">
+1.2455
+</td>
+<td style="text-align:left;">
+1.4770
+</td>
+<td style="text-align:left;">
+1.3630
+</td>
+<td style="text-align:left;">
+1.5525
+</td>
+<td style="text-align:left;">
+1.4185
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+GDP per capita_median
+</td>
+<td style="text-align:left;">
+0.3930
+</td>
+<td style="text-align:left;">
+0.9485
+</td>
+<td style="text-align:left;">
+1.2520
+</td>
+<td style="text-align:left;">
+0.9230
+</td>
+<td style="text-align:left;">
+1.3375
+</td>
+<td style="text-align:left;">
+0.9725
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Perceptions of corruption_median
+</td>
+<td style="text-align:left;">
+0.0820
+</td>
+<td style="text-align:left;">
+0.0975
+</td>
+<td style="text-align:left;">
+0.0795
+</td>
+<td style="text-align:left;">
+0.0780
+</td>
+<td style="text-align:left;">
+0.3350
+</td>
+<td style="text-align:left;">
+0.0600
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+total_litres_of_pure_alcohol_median
+</td>
+<td style="text-align:left;">
+1.80
+</td>
+<td style="text-align:left;">
+1.70
+</td>
+<td style="text-align:left;">
+10.10
+</td>
+<td style="text-align:left;">
+4.95
+</td>
+<td style="text-align:left;">
+9.85
+</td>
+<td style="text-align:left;">
+6.90
+</td>
+</tr>
+</tbody>
+</table>
+<p>** When doing the summary statistics, it was important for me to be looking at the summary statistics, especially for looking at alcohol consumption in comparison with overall happiness score. When looking at the different variables, I also thought it would be interesting to group them by continent in order to see the grouping better in terms of geographical location.I did not find it surprising that when looking at the data, it appeared that there was in fact a positive correlation when looking at total alcohol consumption and happiness score. The results ended up showing that the highest happiness score was for the continent Oceania, and the lowest was for Africa. These results also seemed to support my hypothesis about there being a positive correlation between happiness and alcohol, as Oceania came in with the highest mean for alcohol consumption, while Africa was second to last in front of Asia. This is also when I decided to use the function pivot_longer, as the dataset needed to be longer in order so that a better correlation trend could be seen. When pivot_longer was used, it made it so that instead of the data being more spread out, it is able to be seen in a more compact and convienient way for viewing. As my data was already fairly tidy at the start of the merging process, I decided that it would be more beneficial to use this function when doing summary statistics, as this is when the data was more spread out. **</p>
+</div>
+</div>
+<div id="visualizing-data" class="section level2">
+<h2>Visualizing Data</h2>
+<pre class="r"><code>Short_P2%&gt;%select_if(is.numeric)%&gt;%cor%&gt;%as.data.frame%&gt;%
+  rownames_to_column%&gt;%pivot_longer(-1)%&gt;%
+  ggplot(aes(rowname,name,fill=value))+geom_tile()+
+  geom_text(aes(label=round(value,2)))+
+  xlab(&quot;&quot;)+ylab(&quot;&quot;)+coord_fixed()+theme(axis.text.x = element_text(angle=90, hjust = 1))</code></pre>
+<p><img src="../../project/Knit1_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(Short_P2, aes(Score,total_litres_of_pure_alcohol))+
+  geom_point(aes(color=continent))+ggtitle( &quot;Alcohol Consumption versus Happiness Score&quot;)+ xlab(&quot;Happiness Score&quot;)+ylab(&quot;Total Liters of Alcohol&quot;)</code></pre>
+<p><img src="../../project/Knit1_files/figure-html/unnamed-chunk-4-2.png" width="672" /></p>
+<pre class="r"><code>ggplot(Sum_Stat_Group, aes(x=Score_mean, y=total_litres_of_pure_alcohol_mean, fill=continent))+
+  geom_bar(stat=&quot;summary&quot;,fun=mean)+scale_fill_brewer(palette=&quot;Accent&quot;)+ggtitle( &quot;Average Alcohol Intake Comparison with Happiness Score&quot;)+ scale_x_discrete (name =&quot;Score&quot;, breaks=seq(5,7.5,.5 ))+scale_y_discrete(name=&quot;Alcohol Consumption&quot;, breaks = seq(0, 10, 1))</code></pre>
+<p><img src="../../project/Knit1_files/figure-html/unnamed-chunk-4-3.png" width="672" /></p>
+<p><strong>The first plot shows the correlation that exhists between the different variables of the joined dataset, with the darker the color, the less they have in common. As seen from the graph, the is not a lot of correlation in perception of corruption and the other variables, while the score of happiness is higher with the more positively assiciated variables such as social support. GDP per capita also has a high correlation rate with over all happiness score, which makes sense as a generla trend is having money means that life can be more comfortable.</strong></p>
+<p><strong>The second graph shows the correlation between happiness and alcohol for the various continents. This shows that there is a general trend with Europe and Oceania having more positive correlations associated with greater happiness and higher alcohol intake. On the flip side of the graph, Asia and Africa have a wide spread in terms of both the score and total liters consumed, which could be due to the fact that there is a greater level of diversity that occurs in these regions. </strong></p>
+<p><strong>The final graph also shows more clearly that Oceania has the highest score and alcohol consumption level, which could also be due to the fact that only two countries were counted for the cluster. South Africa, Europe, and North America also have very similar scores in terms of Happiness, but differ a greater amount in the amount of aLcohol that is consumed. Lastly just like the previous graph, Africa comes in last with the lowest average happiness score, while Asia comes in last when looking at aLcohol consumption. </strong></p>
+</div>
+<div id="dimensionality-reduction" class="section level2">
+<h2>Dimensionality Reduction</h2>
+</div>
+<div id="for-this-section-k-means-pam-clustering-was-done-on-a-numeric-dataset-that-had-over-three-variables" class="section level2">
+<h2>For this section k-means/ PAM clustering was done on a numeric dataset that had over three variables</h2>
+<pre class="r"><code>library(cluster)
+library(GGally)</code></pre>
+<pre><code>## Registered S3 method overwritten by &#39;GGally&#39;:
+##   method from   
+##   +.gg   ggplot2</code></pre>
+<pre class="r"><code>cluster1&lt;-Short_P2%&gt;%select(-country, -continent)%&gt;% scale%&gt;% pam(3)
+Short_P2%&gt;% mutate(cluster=as.factor(cluster1$clustering))%&gt;% ggpairs(columns= c(&quot;Score&quot;, &quot;Social support&quot;, &quot;GDP per capita&quot;, &quot;Perceptions of corruption&quot;, &quot;total_litres_of_pure_alcohol&quot;), aes(color=cluster))</code></pre>
+<p><img src="../../project/Knit1_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(Short_P2, aes(x=Score,y=total_litres_of_pure_alcohol, color=continent))+geom_point()</code></pre>
+<p><img src="../../project/Knit1_files/figure-html/unnamed-chunk-5-2.png" width="672" /></p>
+<pre class="r"><code>plot(cluster1,which=2)</code></pre>
+<p><img src="../../project/Knit1_files/figure-html/unnamed-chunk-5-3.png" width="672" /></p>
+<p>** For this part of the analysis I used clustering in order to track goodness of fit in the dataset. This was done by using numeric variables and looking at their correlations with one another. These variables did not have a very strong correlation with one another as seen from the above graphs which show the trends that happen between variables. The spread is large and wide which causes the clusters and their summaries to be closer to .4 than 1 which would be a sign of obvious correlation. The greatest correlation found between variables was seen when looking at GDP per Capita and score, which is reasonable as money can have a direct and lasting impact on overall happiness in a person. The weakest correlation was found to be thoughts on corruption and alcohol consumption, which is somewhat surprising to me as I thought that they could have a positive trend due to intoxication causing people to do risky activities. **</p>
+</div>
+
+            
+        <hr>         <div class="related-posts">
+                <h5>Related Posts</h5>
+                
+              </div> 
+            </div>
+          </div>
+
+   <hr>  <div class="disqus">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+
+    (function() {
+      
+      
+      if (window.location.hostname == "localhost")
+        return;
+
+      var disqus_shortname = '';
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div> 
+        </div>
+      </div>
+    </div>
+
+    
+    <footer>
+  <div id="footer">
+    <div class="container">
+      <p class="text-muted">&copy; All rights reserved. Powered by <a href="https://gohugo.io/">Hugo</a> and
+      <a href="http://www.github.com/nurlansu/hugo-sustain/">sustain</a> with ♥</p>
+    </div>
+  </div>
+</footer>
+<div class="footer"></div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="../../js/docs.min.js"></script>
+<script src="../../js/main.js"></script>
+
+<script src="../../js/ie10-viewport-bug-workaround.js"></script>
+
+
+    
+  </body>
+</html>
