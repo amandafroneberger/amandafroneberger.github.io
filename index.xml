@@ -6,7 +6,26 @@
     <description>Recent content on My Website</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Thu, 10 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 11 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Project 1</title>
+      <link>/project/project1/</link>
+      <pubDate>Fri, 11 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/project/project1/</guid>
+      <description>Project 1 This analysis looks at the correlation between alcohol consumption and average measure of happiness per country and continent.
+Introduction: For this project I decided to combine two datasets in order to find if there is a correlation between happiness and alcohol consumption by country. The first dataset I found looks at the average happiness score on a scale of 1 to 10 per country, while also looking at other social factors like, GDP per capita, and social support that could offer potential correlations to the overall happiness level.</description>
+    </item>
+    
+    <item>
+      <title>Project 2: Modeling, Testing, and Predicting</title>
+      <link>/project/project2/</link>
+      <pubDate>Fri, 11 Dec 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/project/project2/</guid>
+      <description>Modeling Instructions A knitted R Markdown document (preferably HTML) and the raw R Markdown file (as .Rmd) should both be submitted to Canvas by 11:59pm on the due date. These two documents will be graded jointly, so they must be consistent (i.e., don’t change the R Markdown file without also updating the knitted document). Knit an html copy too, for later! In the .Rmd file for Project 2, you can copy the first code-chunk into your project .</description>
+    </item>
+    
     <item>
       <title>Teamwork is Dreamwork!</title>
       <link>/post/2020/12/10/test-post/</link>
@@ -14,19 +33,7 @@
       
       <guid>/post/2020/12/10/test-post/</guid>
       <description>Utilizing R Studio and Python! In this class we&#39;ve seen that R and Python are two different systems that can be used in order to make data manipulation easy and convienient. However, like they say- two is better than one! Why just use Python or R, when you can use both.
-The Dream Team (width=20%)
-By using the reticulate function, R and Python are able to communicate with each other to work togther.</description>
-    </item>
-    
-    <item>
-      <title>Hello R Markdown</title>
-      <link>/post/2015/07/23/hello-r-markdown/</link>
-      <pubDate>Thu, 23 Jul 2015 21:13:14 -0500</pubDate>
-      
-      <guid>/post/2015/07/23/hello-r-markdown/</guid>
-      <description>R Markdown This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.rstudio.com.
-You can embed an R code chunk like this:
-summary(cars) ## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 26.00 ## Median :15.0 Median : 36.00 ## Mean :15.4 Mean : 42.98 ## 3rd Qu.</description>
+The Dream Team   By using the reticulate function, R and Python are able to communicate with each other to work togther.</description>
     </item>
     
     <item>
@@ -37,25 +44,6 @@ summary(cars) ## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 2
       <guid>/project/knit1/</guid>
       <description>Project 1 This analysis looks at the correlation between alcohol consumption and average measure of happiness per country and continent.
 Introduction: For this project I decided to combine two datasets in order to find if there is a correlation between happiness and alcohol consumption by country. The first dataset I found looks at the average happiness score on a scale of 1 to 10 per country, while also looking at other social factors like, GDP per capita, and social support that could offer potential correlations to the overall happiness level.</description>
-    </item>
-    
-    <item>
-      <title>Project 1</title>
-      <link>/project/project1/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/project/project1/</guid>
-      <description>Project 1 This analysis looks at the correlation between alcohol consumption and average measure of happiness per country and continent.
-Introduction: For this project I decided to combine two datasets in order to find if there is a correlation between happiness and alcohol consumption by country. The first dataset I found looks at the average happiness score on a scale of 1 to 10 per country, while also looking at other social factors like, GDP per capita, and social support that could offer potential correlations to the overall happiness level.</description>
-    </item>
-    
-    <item>
-      <title>Project 2: Modeling, Testing, and Predicting</title>
-      <link>/project/project2/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/project/project2/</guid>
-      <description>Modeling Instructions A knitted R Markdown document (preferably HTML) and the raw R Markdown file (as .Rmd) should both be submitted to Canvas by 11:59pm on the due date. These two documents will be graded jointly, so they must be consistent (i.e., don’t change the R Markdown file without also updating the knitted document). Knit an html copy too, for later! In the .Rmd file for Project 2, you can copy the first code-chunk into your project .</description>
     </item>
     
     <item>

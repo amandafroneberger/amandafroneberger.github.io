@@ -1,7 +1,7 @@
 ---
 title: "Project 1"
 author: "Amanda Froneberger"
-date: "2020 12/11"
+date: "2020-12-11"
 output:
   pdf_document: default
   html_document: default

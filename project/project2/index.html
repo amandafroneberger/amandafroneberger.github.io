@@ -60,7 +60,7 @@
  
 <div class="blog-title">
           <h4>
-         January 1, 0001 
+         December 11, 2020 
             &nbsp;&nbsp;
             
           </h4>
@@ -301,7 +301,7 @@ hist(Fs, prob=T); abline(v = obs_F, col=&quot;red&quot;,add=T)</code></pre>
 ## not a graphical parameter</code></pre>
 <p><img src="../../project/project2_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <pre class="r"><code>mean(Fs&gt;obs_F)</code></pre>
-<pre><code>## [1] 0.2682</code></pre>
+<pre><code>## [1] 0.2752</code></pre>
 <p><strong>When the f-statistic was run and compared with the mean value observed, the p-value is effectively 0.268. This shows that some of my f statistics generated under the null hypothesis was bigger that the actual F statistic of 44.61. This means that the null hypothesis can be accepted showing that there is not great difference between the groups</strong></p>
 <ul>
 <li><p><strong>3. (35 pts)</strong> Build a linear regression model predicting one of your response variables from at least 2 other variables, including their interaction. Mean-center any numeric variables involved in the interaction.</p>
@@ -437,9 +437,9 @@ coef(fit3)
 })
 samp_distn %&gt;% t %&gt;% as.data.frame %&gt;% summarize_all(sd)</code></pre>
 <pre><code>##   (Intercept) thickness statusdied from melanoma statusdied from other
-## 1    1.886538 0.6745776                 4.019885              3.915141
+## 1    1.917194 0.6756196                 4.182794               4.03844
 ##   thickness:statusdied from melanoma thickness:statusdied from other
-## 1                           0.876041                        1.171259</code></pre>
+## 1                          0.8977821                        1.250103</code></pre>
 <pre class="r"><code>summary(fit3)</code></pre>
 <pre><code>## 
 ## Call:
@@ -447,22 +447,22 @@ samp_distn %&gt;% t %&gt;% as.data.frame %&gt;% summarize_all(sd)</code></pre>
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -45.066 -10.877   1.605  12.123  39.036 
+## -47.095 -10.658   1.574  12.535  33.127 
 ## 
 ## Coefficients:
 ##                                    Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)                         45.8412     1.9311  23.739   &lt;2e-16 ***
-## thickness                            1.1768     0.5370   2.192   0.0296 *  
-## statusdied from melanoma             4.8686     3.8182   1.275   0.2038    
-## statusdied from other               15.3707     6.7669   2.271   0.0242 *  
-## thickness:statusdied from melanoma  -0.2181     0.8093  -0.269   0.7878    
-## thickness:statusdied from other      0.4066     1.6794   0.242   0.8090    
+## (Intercept)                         51.5442     1.9471  26.473   &lt;2e-16 ***
+## thickness                           -0.1641     0.5660  -0.290   0.7721    
+## statusdied from melanoma            -2.7428     4.4022  -0.623   0.5340    
+## statusdied from other               12.8137     5.7385   2.233   0.0267 *  
+## thickness:statusdied from melanoma   1.3663     0.9767   1.399   0.1634    
+## thickness:statusdied from other      0.9545     1.4378   0.664   0.5075    
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
 ## 
-## Residual standard error: 16.21 on 199 degrees of freedom
-## Multiple R-squared:  0.1218, Adjusted R-squared:  0.09969 
-## F-statistic: 5.518 on 5 and 199 DF,  p-value: 8.81e-05</code></pre>
+## Residual standard error: 16.15 on 199 degrees of freedom
+## Multiple R-squared:  0.07357,    Adjusted R-squared:  0.05029 
+## F-statistic:  3.16 on 5 and 199 DF,  p-value: 0.00908</code></pre>
 <p><strong>When bootstrapping was done, the intercept was 6.07, thickness 1.03, status 3.11, thickness:status 0.598 when looking at the standard errors. These values were very similar to the bootstrapping SE when accounting for robustness, with the greatest differences being for status at 2.19 and the intercept at 4.14. These tests are important for analyzing the variation across the different variables as you can see major fluctuation, while the original BP test just gives an overall value of 3.1 across the data being analyzed. </strong></p>
 <ul>
 <li><p><strong>5. (25 pts)</strong> Fit a logistic regression model predicting a binary variable (if you don't have one, make/get one) from at least two explanatory variables (interaction not necessary).</p>
