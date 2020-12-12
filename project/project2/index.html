@@ -7,7 +7,7 @@
     <meta name="author" content="Amanda Froneberger" />
     
     <link rel="shortcut icon" type="image/x-icon" href="../../img/favicon.ico">
-    <title>Project 2</title>
+    <title>Project 2: Modeling, Testing, and Predicting</title>
     <meta name="generator" content="Hugo 0.79.0" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="../../css/main.css" />
@@ -43,7 +43,7 @@
         
         <li><a href="../../projects/">PROJECTS</a></li>
         
-        <li><a href="../../resume/">RESUME</a></li>
+        <li><a href="../../resume.pdf">RESUME</a></li>
         
       
       </ul>
@@ -54,13 +54,13 @@
       <div class="container">
         <div class="blog-post">
           <h3>
-            <strong><a href="../../project/project2/">Project 2</a></strong>
+            <strong><a href="../../project/project2/">Project 2: Modeling, Testing, and Predicting</a></strong>
           </h3>
         </div>
  
 <div class="blog-title">
           <h4>
-         December 1, 2020 
+         January 1, 0001 
             &nbsp;&nbsp;
             
           </h4>
@@ -72,8 +72,617 @@
               
 
 
-<div id="test-project-2" class="section level2">
-<h2>Test Project 2</h2>
+<div id="modeling" class="section level1">
+<h1>Modeling</h1>
+<div id="instructions" class="section level2">
+<h2>Instructions</h2>
+<p>A knitted R Markdown document (preferably HTML) and the raw R Markdown file (as .Rmd) should both be submitted to Canvas by 11:59pm on the due date. These two documents will be graded jointly, so they must be consistent (i.e., don’t change the R Markdown file without also updating the knitted document). Knit an html copy too, for later! In the .Rmd file for Project 2, you can copy the first code-chunk into your project .Rmd file to get better formatting. Notice that you can adjust the opts_chunk$set(...) above to set certain parameters if necessary to make the knitting cleaner (you can globally set the size of all plots, etc). You can copy the set-up chunk in Project2.Rmd: I have gone ahead and set a few for you (such as disabling warnings and package-loading messges when knitting)!</p>
+<p>Like before, I envision your written text forming something of a narrative structure around your code/output. All results presented must have corresponding code. Any answers/results/plots etc. given without the corresponding R code that generated the result will not be graded. Furthermore, all code contained in our project document should work properly. Please do not include any extraneous code or code which produces error messages. (Code which produces warnings is fine as long as you understand what the warnings mean.)</p>
+</div>
+<div id="guidelines-and-rubric" class="section level2">
+<h2>Guidelines and Rubric</h2>
+<ul>
+<li><strong>0. (5 pts)</strong> Introduce your dataset and each of your variables (or just your main variables if you have lots) in a paragraph. What are they measuring? How many observations?</li>
+</ul>
+<pre class="r"><code>r = getOption(&quot;repos&quot;)
+r[&quot;CRAN&quot;] = &quot;http://cran.us.r-project.org&quot;
+options(repos = r)
+install.packages(&quot;csv&quot;)</code></pre>
+<pre><code>## Installing package into &#39;/stor/home/aff395/R/x86_64-pc-linux-gnu-library/3.6&#39;
+## (as &#39;lib&#39; is unspecified)</code></pre>
+<pre class="r"><code>library(csv)
+library(readr)
+Melanoma &lt;- read_csv(&quot;melanoma.csv&quot;)</code></pre>
+<pre><code>## Warning: Missing column names filled in: &#39;X1&#39; [1]</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   X1 = col_double(),
+##   time = col_double(),
+##   status = col_double(),
+##   sex = col_double(),
+##   age = col_double(),
+##   year = col_double(),
+##   thickness = col_double(),
+##   ulcer = col_double()
+## )</code></pre>
+<pre class="r"><code>library(dplyr)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<pre class="r"><code>Melanoma&lt;-Melanoma %&gt;% mutate(sex=recode(sex, &quot;1&quot;=&quot;Male&quot;, &quot;0&quot;=&quot;Female&quot;))
+Melanoma&lt;-Melanoma %&gt;% mutate(ulcer=recode(ulcer, &quot;1&quot;=&quot;present&quot;, &quot;0&quot;=&quot;absent&quot;))
+Melanoma&lt;-Melanoma %&gt;% mutate(status=recode(status, &quot;1&quot;=&quot;died from melanoma&quot;, &quot;2&quot;=&quot;alive&quot;, &quot;3&quot;= &quot;died from other&quot;))</code></pre>
+<p><strong>This data is made up of 7 variables that look at 205 patients that have malignant melanoma. The first variable is the survival time in days since they had an operation. Status looks at if the patient had passed away from the melanoma, is still alive by the end of the study, or if they had passed away from unrelated causes by the end of the study. Sex indicates whether they identify as a female or male, which is categorical and binary. Age shows how old the patient is when they underwent the operation. Year shows the year the operation happened. Thickness describes the tumor thickness in mm. Ulcer indicates whether they have one or not.</strong></p>
+<ul>
+<li><strong>1. (15 pts)</strong> Perform a MANOVA testing whether any of your numeric variables (or a subset of them, if including them all is unreasonable or doesn't make sense) show a mean difference across levels of one of your categorical variables (3). If they do, perform univariate ANOVAs to find response(s) showing a mean difference across groups (3), and perform post-hoc t tests to find which groups differ (3). Discuss the number of tests you have performed, calculate the probability of at least one type I error (if unadjusted), and adjust the significance level accordingly (bonferroni correction) before discussing significant differences (3). Briefly discuss MANOVA assumptions and whether or not they are likely to have been met (no need for anything too in-depth) (2).</li>
+</ul>
+<pre class="r"><code>man_sex&lt;-manova(cbind(time, age, year, thickness)~sex, data=Melanoma)
+summary(man_sex)</code></pre>
+<pre><code>##            Df   Pillai approx F num Df den Df  Pr(&gt;F)  
+## sex         1 0.047283   2.4815      4    200 0.04512 *
+## Residuals 203                                          
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>summary.aov(man_sex)</code></pre>
+<pre><code>##  Response time :
+##              Df    Sum Sq Mean Sq F value  Pr(&gt;F)  
+## sex           1   5512308 5512308  4.4523 0.03608 *
+## Residuals   203 251327801 1238068                  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+##  Response age :
+##              Df Sum Sq Mean Sq F value Pr(&gt;F)
+## sex           1    265  264.79  0.9525 0.3303
+## Residuals   203  56436  278.01               
+## 
+##  Response year :
+##              Df  Sum Sq Mean Sq F value Pr(&gt;F)
+## sex           1    0.01  0.0095  0.0014   0.97
+## Residuals   203 1353.23  6.6662               
+## 
+##  Response thickness :
+##              Df  Sum Sq Mean Sq F value   Pr(&gt;F)   
+## sex           1   61.42  61.422  7.2272 0.007777 **
+## Residuals   203 1725.26   8.499                    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>Melanoma%&gt;% group_by(sex)%&gt;% summarize(mean(time), mean(age), mean(year), mean(thickness))</code></pre>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<pre><code>## # A tibble: 2 x 5
+##   sex    `mean(time)` `mean(age)` `mean(year)` `mean(thickness)`
+##   &lt;chr&gt;         &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;             &lt;dbl&gt;
+## 1 Female        2283.        51.6        1970.              2.49
+## 2 Male          1946.        53.9        1970.              3.61</code></pre>
+<pre class="r"><code>pairwise.t.test(Melanoma$time, Melanoma$sex, p.adj = &quot;none&quot;)</code></pre>
+<pre><code>## 
+##  Pairwise comparisons using t tests with pooled SD 
+## 
+## data:  Melanoma$time and Melanoma$sex 
+## 
+##      Female
+## Male 0.036 
+## 
+## P value adjustment method: none</code></pre>
+<pre class="r"><code>pairwise.t.test(Melanoma$thickness, Melanoma$sex, p.adj = &quot;none&quot;)</code></pre>
+<pre><code>## 
+##  Pairwise comparisons using t tests with pooled SD 
+## 
+## data:  Melanoma$thickness and Melanoma$sex 
+## 
+##      Female
+## Male 0.0078
+## 
+## P value adjustment method: none</code></pre>
+<pre class="r"><code>##4 t-tests were done
+.05/4 ## 0.0125 </code></pre>
+<pre><code>## [1] 0.0125</code></pre>
+<pre class="r"><code>1-(.95^4) ## this equals .1855</code></pre>
+<pre><code>## [1] 0.1854938</code></pre>
+<pre class="r"><code>man_status&lt;-manova(cbind(time, age, year, thickness)~status, data=Melanoma)
+summary(man_status)</code></pre>
+<pre><code>##            Df  Pillai approx F num Df den Df    Pr(&gt;F)    
+## status      2 0.66991   25.183      8    400 &lt; 2.2e-16 ***
+## Residuals 202                                             
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>summary.aov(man_status)</code></pre>
+<pre><code>##  Response time :
+##              Df    Sum Sq  Mean Sq F value    Pr(&gt;F)    
+## status        2  84776070 42388035  49.763 &lt; 2.2e-16 ***
+## Residuals   202 172064039   851802                      
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+##  Response age :
+##              Df Sum Sq Mean Sq F value   Pr(&gt;F)   
+## status        2   3503 1751.28  6.6498 0.001596 **
+## Residuals   202  53198  263.36                    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+##  Response year :
+##              Df  Sum Sq Mean Sq F value  Pr(&gt;F)  
+## status        2   58.72 29.3607  4.5815 0.01133 *
+## Residuals   202 1294.52  6.4085                  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+##  Response thickness :
+##              Df  Sum Sq Mean Sq F value    Pr(&gt;F)    
+## status        2  180.32  90.158  11.337 2.155e-05 ***
+## Residuals   202 1606.36   7.952                      
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>Melanoma%&gt;% group_by(status)%&gt;% summarize(mean(time), mean(age), mean(year), mean(thickness))</code></pre>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<pre><code>## # A tibble: 3 x 5
+##   status             `mean(time)` `mean(age)` `mean(year)` `mean(thickness)`
+##   &lt;chr&gt;                     &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;             &lt;dbl&gt;
+## 1 alive                     2621.        50.0        1970.              2.24
+## 2 died from melanoma        1253.        55.1        1969.              4.31
+## 3 died from other           1338.        65.3        1970.              3.72</code></pre>
+<pre class="r"><code>pairwise.t.test(Melanoma$time, Melanoma$status, p.adj = &quot;none&quot;)</code></pre>
+<pre><code>## 
+##  Pairwise comparisons using t tests with pooled SD 
+## 
+## data:  Melanoma$time and Melanoma$status 
+## 
+##                    alive   died from melanoma
+## died from melanoma &lt; 2e-16 -                 
+## died from other    1.6e-06 0.76              
+## 
+## P value adjustment method: none</code></pre>
+<pre class="r"><code>pairwise.t.test(Melanoma$thickness, Melanoma$status, p.adj = &quot;none&quot;)</code></pre>
+<pre><code>## 
+##  Pairwise comparisons using t tests with pooled SD 
+## 
+## data:  Melanoma$thickness and Melanoma$status 
+## 
+##                    alive   died from melanoma
+## died from melanoma 6.4e-06 -                 
+## died from other    0.064   0.481             
+## 
+## P value adjustment method: none</code></pre>
+<pre class="r"><code>pairwise.t.test(Melanoma$age, Melanoma$status, p.adj = &quot;none&quot;)</code></pre>
+<pre><code>## 
+##  Pairwise comparisons using t tests with pooled SD 
+## 
+## data:  Melanoma$age and Melanoma$status 
+## 
+##                    alive   died from melanoma
+## died from melanoma 0.04910 -                 
+## died from other    0.00096 0.03637           
+## 
+## P value adjustment method: none</code></pre>
+<pre class="r"><code>pairwise.t.test(Melanoma$year, Melanoma$status, p.adj = &quot;none&quot;)</code></pre>
+<pre><code>## 
+##  Pairwise comparisons using t tests with pooled SD 
+## 
+## data:  Melanoma$year and Melanoma$status 
+## 
+##                    alive  died from melanoma
+## died from melanoma 0.0034 -                 
+## died from other    0.2672 0.6017            
+## 
+## P value adjustment method: none</code></pre>
+<pre class="r"><code>##6 t-tests were done
+.05/14 ## this is equalivant to 0.00357</code></pre>
+<pre><code>## [1] 0.003571429</code></pre>
+<pre class="r"><code>1-(.95^14)</code></pre>
+<pre><code>## [1] 0.512325</code></pre>
+<p>** For this portion of the project I used the MANOVA test to measure whether the variables time, status, age, year, and thickness differ by the gender of the participants. I ended up finding the mean differences by gender and performing t-tests on the data, but I ended up doing MANOVA comparing time, gender, age, year, and thickness differ by the status of the participants which came out much more significant. When the MAVOVA was run it showed up as being significant (as the p-value was less than 0.5), so one-way ANOVAs were done for each variable. These one way ANOVAs found that thickness, year, age, and time were all significant which means that at least one status condition differs. I then found the mean differences for the groups and performed the post-hoc t tests. Across the variables tested, there seemed to be the most significance when comparing the status of alive, and died from Melanoma. As 14 tests were run on the data, the probability that at type one error rate was done is 0.51, which means that a bonferroni correction needs to be done on the data making the new value of significance become 0.00357. The Manova assumptions that were was that this data frame does have more samples than variables present in the data. It also has multivariate normal distributions.**</p>
+<ul>
+<li><strong>2. (10 pts)</strong> Perform some kind of randomization test on your data (that makes sense). The statistic can be anything you want (mean difference, correlation, F-statistic/ANOVA, chi-squared), etc. State null and alternative hypotheses, perform the test, and interpret the results (7). Create a plot visualizing the null distribution and the test statistic (3).</li>
+</ul>
+<pre class="r"><code>data1&lt;-Melanoma%&gt;%mutate(y=ifelse(ulcer==&quot;present&quot;,1,0))
+summary(aov(thickness~y,data=data1))</code></pre>
+<pre><code>##              Df Sum Sq Mean Sq F value   Pr(&gt;F)    
+## y             1  321.9   321.9   44.61 2.26e-10 ***
+## Residuals   203 1464.8     7.2                     
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>obs_F&lt;-44.61
+Fs&lt;-replicate(5000,{
+new&lt;-data1%&gt;%mutate(thickness=sample(thickness)) 
+SSW&lt;- new%&gt;%group_by()%&gt;%summarize(SSW=sum((y-mean(y))^2),.groups = &#39;drop&#39;)%&gt;%
+summarize(sum(SSW),.groups = &#39;drop&#39;)%&gt;%pull
+SSB&lt;- new%&gt;%mutate(mean=mean(thickness))%&gt;%group_by(y)%&gt;%mutate(groupmean=mean(thickness))%&gt;%
+summarize(SSB=sum((mean-groupmean)^2),.groups = &#39;drop&#39;)%&gt;%summarize(sum(SSB),.groups = &#39;drop&#39;)%&gt;%pull
+(SSB/1)/(SSW/203)
+})
+hist(Fs, prob=T); abline(v = obs_F, col=&quot;red&quot;,add=T)</code></pre>
+<pre><code>## Warning in int_abline(a = a, b = b, h = h, v = v, untf = untf, ...): &quot;add&quot; is
+## not a graphical parameter</code></pre>
+<p><img src="../../project/project2_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<pre class="r"><code>mean(Fs&gt;obs_F)</code></pre>
+<pre><code>## [1] 0.2682</code></pre>
+<p><strong>When the f-statistic was run and compared with the mean value observed, the p-value is effectively 0.268. This shows that some of my f statistics generated under the null hypothesis was bigger that the actual F statistic of 44.61. This means that the null hypothesis can be accepted showing that there is not great difference between the groups</strong></p>
+<ul>
+<li><p><strong>3. (35 pts)</strong> Build a linear regression model predicting one of your response variables from at least 2 other variables, including their interaction. Mean-center any numeric variables involved in the interaction.</p>
+<ul>
+<li>Interpret the coefficient estimates (do not discuss significance) (10)</li>
+<li>Plot the regression using <code>ggplot()</code> using geom_smooth(method=&quot;lm&quot;). If your interaction is numeric by numeric, refer to code in the slides to make the plot or check out the <code>interactions</code> package, which makes this easier. If you have 3 or more predictors, just chose two of them to plot for convenience. (8)</li>
+<li>Check assumptions of linearity, normality, and homoskedasticity either graphically or using a hypothesis test (4)</li>
+<li>Regardless, recompute regression results with robust standard errors via <code>coeftest(..., vcov=vcovHC(...))</code>. Discuss significance of results, including any changes from before/after robust SEs if applicable. (8)</li>
+<li>What proportion of the variation in the outcome does your model explain? (4)</li>
+</ul></li>
+</ul>
+<pre class="r"><code>Melanoma&lt;-Melanoma%&gt;%mutate(age_c=Melanoma$age-mean(Melanoma$age))%&gt;%mutate(thickness_c=Melanoma$thickness-mean(Melanoma$thickness))
+fit2&lt;-lm(age~ thickness_c*status , data=Melanoma)
+summary(fit2)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = age ~ thickness_c * status, data = Melanoma)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -46.472 -10.474   2.524  11.187  38.824 
+## 
+## Coefficients:
+##                                       Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)                          50.640007   1.449616  34.933  &lt; 2e-16 ***
+## thickness_c                           0.936892   0.600549   1.560  0.12033    
+## statusdied from melanoma              3.152299   2.712446   1.162  0.24656    
+## statusdied from other                13.599224   4.648137   2.926  0.00384 ** 
+## thickness_c:statusdied from melanoma -0.005744   0.850619  -0.007  0.99462    
+## thickness_c:statusdied from other     0.374484   1.369134   0.274  0.78474    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 16.11 on 199 degrees of freedom
+## Multiple R-squared:  0.08905,    Adjusted R-squared:  0.06616 
+## F-statistic: 3.891 on 5 and 199 DF,  p-value: 0.002187</code></pre>
+<pre class="r"><code>resids&lt;-fit2$residuals
+library(ggplot2)
+fitvals&lt;-fit2$fitted.values
+ggplot()+geom_point(aes(fitvals,resids))+geom_hline(yintercept=0, col=&quot;red&quot;)</code></pre>
+<p><img src="../../project/project2_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<pre class="r"><code>library(lmtest)</code></pre>
+<pre><code>## Loading required package: zoo</code></pre>
+<pre><code>## 
+## Attaching package: &#39;zoo&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     as.Date, as.Date.numeric</code></pre>
+<pre class="r"><code>bptest(fit2)</code></pre>
+<pre><code>## 
+##  studentized Breusch-Pagan test
+## 
+## data:  fit2
+## BP = 6.437, df = 5, p-value = 0.266</code></pre>
+<pre class="r"><code>ggplot()+geom_histogram(aes(resids)) </code></pre>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="../../project/project2_files/figure-html/unnamed-chunk-4-2.png" width="672" /></p>
+<pre class="r"><code>ggplot()+geom_qq(aes(sample=resids))</code></pre>
+<p><img src="../../project/project2_files/figure-html/unnamed-chunk-4-3.png" width="672" /></p>
+<pre class="r"><code>ks.test(resids, &quot;pnorm&quot;, sd=sd(resids))</code></pre>
+<pre><code>## Warning in ks.test(resids, &quot;pnorm&quot;, sd = sd(resids)): ties should not be present
+## for the Kolmogorov-Smirnov test</code></pre>
+<pre><code>## 
+##  One-sample Kolmogorov-Smirnov test
+## 
+## data:  resids
+## D = 0.070606, p-value = 0.2585
+## alternative hypothesis: two-sided</code></pre>
+<pre class="r"><code>library(sandwich)
+library(lmtest)
+coeftest(fit2)[,1:2]</code></pre>
+<pre><code>##                                         Estimate Std. Error
+## (Intercept)                          50.64000739  1.4496163
+## thickness_c                           0.93689206  0.6005490
+## statusdied from melanoma              3.15229916  2.7124464
+## statusdied from other                13.59922446  4.6481366
+## thickness_c:statusdied from melanoma -0.00574362  0.8506193
+## thickness_c:statusdied from other     0.37448372  1.3691337</code></pre>
+<pre class="r"><code>coeftest(fit2, vcov = vcovHC(fit2))[,1:2]</code></pre>
+<pre><code>##                                         Estimate Std. Error
+## (Intercept)                          50.64000739  1.5223887
+## thickness_c                           0.93689206  0.6945375
+## statusdied from melanoma              3.15229916  3.0025598
+## statusdied from other                13.59922446  3.1606316
+## thickness_c:statusdied from melanoma -0.00574362  0.8949801
+## thickness_c:statusdied from other     0.37448372  1.1251371</code></pre>
+<pre class="r"><code>summary(fit2)$coef[,1:2]</code></pre>
+<pre><code>##                                         Estimate Std. Error
+## (Intercept)                          50.64000739  1.4496163
+## thickness_c                           0.93689206  0.6005490
+## statusdied from melanoma              3.15229916  2.7124464
+## statusdied from other                13.59922446  4.6481366
+## thickness_c:statusdied from melanoma -0.00574362  0.8506193
+## thickness_c:statusdied from other     0.37448372  1.3691337</code></pre>
+<pre class="r"><code>summary(fit2)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = age ~ thickness_c * status, data = Melanoma)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -46.472 -10.474   2.524  11.187  38.824 
+## 
+## Coefficients:
+##                                       Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)                          50.640007   1.449616  34.933  &lt; 2e-16 ***
+## thickness_c                           0.936892   0.600549   1.560  0.12033    
+## statusdied from melanoma              3.152299   2.712446   1.162  0.24656    
+## statusdied from other                13.599224   4.648137   2.926  0.00384 ** 
+## thickness_c:statusdied from melanoma -0.005744   0.850619  -0.007  0.99462    
+## thickness_c:statusdied from other     0.374484   1.369134   0.274  0.78474    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 16.11 on 199 degrees of freedom
+## Multiple R-squared:  0.08905,    Adjusted R-squared:  0.06616 
+## F-statistic: 3.891 on 5 and 199 DF,  p-value: 0.002187</code></pre>
+<pre class="r"><code>ggplot(Melanoma, aes(age,thickness, color = status)) + geom_smooth(method = &quot;lm&quot;, se = F, fullrange = T)+ geom_point()+geom_vline(xintercept=0,lty=2)</code></pre>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<p><img src="../../project/project2_files/figure-html/unnamed-chunk-4-4.png" width="672" /></p>
+<p><strong>Looking at the coefficient estimates for the linear regression, it shows that the predicted age of the individual is 49.56 when thickness and status are predicted to be 0. The slope would be 0.867 for thickness centered on age when holding the status constant. 1.67 would be the slope for status on age when holding thickness constant. Next the results were graphed using ggplot which showed assumptions of homoscedasticity, normality against the residuals, and then graphing homoscedasticity against robust standard errors. A histogram was also made of the residuals which showed a fairly normal distribution. Breusch-Pagan test showed that the BP 3.10 without looking at the SE, and when taking those into account robust SE there seemed to be a slight difference.The proportion of variation in the outcome that the model explains is 3.54% as that is the R^2 value. </strong></p>
+<ul>
+<li><strong>4. (5 pts)</strong> Rerun same regression model (with the interaction), but this time compute bootstrapped standard errors (either by resampling observations or residuals). Discuss any changes you observe in SEs and p-values using these SEs compared to the original SEs and the robust SEs)</li>
+</ul>
+<pre class="r"><code>boot_dat&lt;- sample_frac(Melanoma, replace=T)
+fit3 &lt;- lm(age~ thickness*status, data=boot_dat)
+
+
+samp_distn&lt;-replicate(5000,{
+boot_dat &lt;- sample_frac(Melanoma, replace=T)
+fit3 &lt;- lm(age~ thickness*status, data=boot_dat)
+coef(fit3)
+})
+samp_distn %&gt;% t %&gt;% as.data.frame %&gt;% summarize_all(sd)</code></pre>
+<pre><code>##   (Intercept) thickness statusdied from melanoma statusdied from other
+## 1    1.886538 0.6745776                 4.019885              3.915141
+##   thickness:statusdied from melanoma thickness:statusdied from other
+## 1                           0.876041                        1.171259</code></pre>
+<pre class="r"><code>summary(fit3)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = age ~ thickness * status, data = boot_dat)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -45.066 -10.877   1.605  12.123  39.036 
+## 
+## Coefficients:
+##                                    Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)                         45.8412     1.9311  23.739   &lt;2e-16 ***
+## thickness                            1.1768     0.5370   2.192   0.0296 *  
+## statusdied from melanoma             4.8686     3.8182   1.275   0.2038    
+## statusdied from other               15.3707     6.7669   2.271   0.0242 *  
+## thickness:statusdied from melanoma  -0.2181     0.8093  -0.269   0.7878    
+## thickness:statusdied from other      0.4066     1.6794   0.242   0.8090    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 16.21 on 199 degrees of freedom
+## Multiple R-squared:  0.1218, Adjusted R-squared:  0.09969 
+## F-statistic: 5.518 on 5 and 199 DF,  p-value: 8.81e-05</code></pre>
+<p><strong>When bootstrapping was done, the intercept was 6.07, thickness 1.03, status 3.11, thickness:status 0.598 when looking at the standard errors. These values were very similar to the bootstrapping SE when accounting for robustness, with the greatest differences being for status at 2.19 and the intercept at 4.14. These tests are important for analyzing the variation across the different variables as you can see major fluctuation, while the original BP test just gives an overall value of 3.1 across the data being analyzed. </strong></p>
+<ul>
+<li><p><strong>5. (25 pts)</strong> Fit a logistic regression model predicting a binary variable (if you don't have one, make/get one) from at least two explanatory variables (interaction not necessary).</p>
+<ul>
+<li>Interpret coefficient estimates in context (10)</li>
+<li>Report a confusion matrix for your logistic regression (2)</li>
+<li>Compute and discuss the Accuracy, Sensitivity (TPR), Specificity (TNR), Precision (PPV), and AUC of your model (5)</li>
+<li>Using ggplot, make a density plot of the log-odds (logit) colored/grouped by your binary outcome variable (3)</li>
+<li>Generate an ROC curve (plot) and calculate AUC (either manually or with a package); interpret (5)</li>
+</ul></li>
+</ul>
+<pre class="r"><code>class_diag&lt;-function(probs,truth){
+  
+  tab&lt;-table(factor(probs&gt;.5,levels=c(&quot;FALSE&quot;,&quot;TRUE&quot;)),truth)
+  acc=sum(diag(tab))/sum(tab)
+  sens=tab[2,2]/colSums(tab)[2]
+  spec=tab[1,1]/colSums(tab)[1]
+  ppv=tab[2,2]/rowSums(tab)[2]
+  
+  if(is.numeric(truth)==FALSE &amp; is.logical(truth)==FALSE) truth&lt;-as.numeric(truth)-1
+  
+  #CALCULATE EXACT AUC
+  ord&lt;-order(probs, decreasing=TRUE)
+  probs &lt;- probs[ord]; truth &lt;- truth[ord]
+  
+  TPR=cumsum(truth)/max(1,sum(truth)) 
+  FPR=cumsum(!truth)/max(1,sum(!truth))
+  
+  dup&lt;-c(probs[-1]&gt;=probs[-length(probs)], FALSE)
+  TPR&lt;-c(0,TPR[!dup],1); FPR&lt;-c(0,FPR[!dup],1)
+  
+  n &lt;- length(TPR)
+  auc&lt;- sum( ((TPR[-1]+TPR[-n])/2) * (FPR[-1]-FPR[-n]) )
+  
+  data.frame(acc,sens,spec,ppv,auc)
+}
+data&lt;-Melanoma%&gt;%mutate(y=ifelse(ulcer==&quot;present&quot;,1,0))
+fit&lt;-glm(y~thickness+age,data=data,family=binomial(link=&quot;logit&quot;))
+coeftest(fit)</code></pre>
+<pre><code>## 
+## z test of coefficients:
+## 
+##               Estimate Std. Error z value  Pr(&gt;|z|)    
+## (Intercept) -1.7082538  0.5445886 -3.1368  0.001708 ** 
+## thickness    0.4482084  0.0878074  5.1045 3.318e-07 ***
+## age          0.0048853  0.0096873  0.5043  0.614051    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>exp(coef(fit)) %&gt;% round(3) %&gt;% t</code></pre>
+<pre><code>##      (Intercept) thickness   age
+## [1,]       0.181     1.566 1.005</code></pre>
+<pre class="r"><code>summary(fit)</code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = y ~ thickness + age, family = binomial(link = &quot;logit&quot;), 
+##     data = data)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -3.2250  -0.8396  -0.6914   1.0479   1.7663  
+## 
+## Coefficients:
+##              Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept) -1.708254   0.544589  -3.137  0.00171 ** 
+## thickness    0.448208   0.087807   5.104 3.32e-07 ***
+## age          0.004885   0.009687   0.504  0.61405    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 281.13  on 204  degrees of freedom
+## Residual deviance: 235.51  on 202  degrees of freedom
+## AIC: 241.51
+## 
+## Number of Fisher Scoring iterations: 5</code></pre>
+<pre class="r"><code>probs&lt;-predict(fit,type=&quot;response&quot;) 
+pred&lt;-ifelse(probs&gt;.5,1,0)
+table(prediction=pred, truth=data$y)%&gt;%addmargins</code></pre>
+<pre><code>##           truth
+## prediction   0   1 Sum
+##        0   102  37 139
+##        1    13  53  66
+##        Sum 115  90 205</code></pre>
+<pre class="r"><code>(102+53)/205 ## accuracy is 0.756</code></pre>
+<pre><code>## [1] 0.7560976</code></pre>
+<pre class="r"><code>53/90  ##tpr</code></pre>
+<pre><code>## [1] 0.5888889</code></pre>
+<pre class="r"><code>102/115 #tnr</code></pre>
+<pre><code>## [1] 0.8869565</code></pre>
+<pre class="r"><code>53/66 #PPV</code></pre>
+<pre><code>## [1] 0.8030303</code></pre>
+<pre class="r"><code>install.packages(&quot;plotROC&quot;)</code></pre>
+<pre><code>## Installing package into &#39;/stor/home/aff395/R/x86_64-pc-linux-gnu-library/3.6&#39;
+## (as &#39;lib&#39; is unspecified)</code></pre>
+<pre class="r"><code>library(plotROC)
+ROCplot&lt;-ggplot(data)+geom_roc(aes(d=y,m=probs), n.cuts=0)+geom_segment(aes(x=0,xend=1,y=0,yend=1),lty=2)
+calc_auc(ROCplot)</code></pre>
+<pre><code>##   PANEL group       AUC
+## 1     1    -1 0.8201449</code></pre>
+<pre class="r"><code>ROCplot</code></pre>
+<p><img src="../../project/project2_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<pre class="r"><code>class_diag(probs, data$y)</code></pre>
+<pre><code>##         acc      sens      spec       ppv       auc
+## 1 0.7560976 0.5888889 0.8869565 0.8030303 0.8201449</code></pre>
+<pre class="r"><code>logistic&lt;-function(x){exp(x)/(1+exp(x))}
+data$logit&lt;-predict(fit,type=&quot;link&quot;)
+data%&gt;%ggplot(aes(logit,color=y,fill=y))+geom_density(alpha=.4)+
+theme(legend.position=c(.2,.2))+geom_vline(xintercept=0)+xlab(&quot;predictor (logit)&quot;)</code></pre>
+<p><img src="../../project/project2_files/figure-html/unnamed-chunk-6-2.png" width="672" /></p>
+<pre class="r"><code>ggplot(data, aes(thickness+age,probs))+
+geom_point(aes(color=y),alpha=.5,size=3)+
+geom_rug(aes(color=y),alpha=.5,sides=&quot;right&quot;)+
+geom_hline(yintercept=c(.85))+
+theme(legend.position=c(.9,.8))</code></pre>
+<p><img src="../../project/project2_files/figure-html/unnamed-chunk-6-3.png" width="672" /></p>
+<p>** The coefficient estimates show that every one mm increase in thickness the odds of there being an ulcer present increase by 1.57, and for every 1 year increase in age, the odds of an ulcer being present go up by 1.005. The accuracy comes out to be 0.756, The TPR or sensitivity of the model is 0.589, and the specificity or TNR is 0.887, and the precision or PPV of 0.803. The AUC for the model ends up being 0.82 which puts the model as being good. **</p>
+<ul>
+<li><p><strong>6. (25 pts)</strong> Perform a logistic regression predicting the same binary response variable from <em>ALL</em> of the rest of your variables (the more, the better!)</p>
+<ul>
+<li>Fit model, compute in-sample classification diagnostics (Accuracy, Sensitivity, Specificity, Precision, AUC), and interpret (5)</li>
+<li>Perform 10-fold (or repeated random sub-sampling) CV with the same model and report average out-of-sample classification diagnostics (Accuracy, Sensitivity, Specificity, Precision, and AUC); interpret AUC and compare with the in-sample metrics (10)</li>
+<li>Perform LASSO on the same model/variables. Choose lambda to give the simplest model whose accuracy is near that of the best (i.e., <code>lambda.1se</code>). Discuss which variables are retained. (5)</li>
+<li>Perform 10-fold CV using only the variables lasso selected: compare model's out-of-sample AUC to that of your logistic regressions above (5)</li>
+</ul></li>
+</ul>
+<pre class="r"><code>Melanoma&lt;-Melanoma%&gt;%select(-X1)
+data1&lt;-Melanoma%&gt;%mutate(y=ifelse(ulcer==&quot;present&quot;,1,0))
+fit1&lt;-glm(y~time+status+sex+age+year+thickness,data=data1,family=&quot;binomial&quot;)
+prob1&lt;-predict(fit1,data=&quot;response&quot;)
+coef(fit1)</code></pre>
+<pre><code>##              (Intercept)                     time statusdied from melanoma 
+##            -8.658985e+01            -1.008789e-04             1.216295e+00 
+##    statusdied from other                  sexMale                      age 
+##             2.869161e-01             2.123588e-01             2.462852e-04 
+##                     year                thickness 
+##             4.318286e-02             3.808053e-01</code></pre>
+<pre class="r"><code>class_diag(prob1,data1$y)</code></pre>
+<pre><code>##         acc sens      spec       ppv       auc
+## 1 0.7365854  0.5 0.9217391 0.8333333 0.8154589</code></pre>
+<pre class="r"><code>summarize_all(data1,mean)</code></pre>
+<pre><code>## Warning in mean.default(status): argument is not numeric or logical: returning
+## NA</code></pre>
+<pre><code>## Warning in mean.default(sex): argument is not numeric or logical: returning NA</code></pre>
+<pre><code>## Warning in mean.default(ulcer): argument is not numeric or logical: returning NA</code></pre>
+<pre><code>## # A tibble: 1 x 10
+##    time status   sex   age  year thickness ulcer    age_c thickness_c     y
+##   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;       &lt;dbl&gt; &lt;dbl&gt;
+## 1 2153.     NA    NA  52.5 1970.      2.92    NA 2.26e-15   -7.73e-17 0.439</code></pre>
+<pre class="r"><code>set.seed(1234)
+k=10 
+data3&lt;-data1[sample(nrow(data1)),] 
+folds&lt;-cut(seq(1:nrow(data1)),breaks=k,labels=F) 
+diags&lt;-NULL
+for(i in 1:k){
+train&lt;-data3[folds!=i,]
+test&lt;-data3[folds==i,]
+truth&lt;-test$y 
+fit3&lt;-glm(y~time+status+sex+age+year+thickness,data=data1,family=&quot;binomial&quot;)
+probs3&lt;-predict(fit3,newdata = test,type=&quot;response&quot;)
+diags&lt;-rbind(diags,class_diag(probs3,truth))
+}
+summarize_all(diags,mean)</code></pre>
+<pre><code>##         acc      sens      spec       ppv       auc
+## 1 0.7654762 0.6813709 0.8345349 0.7770238 0.8161166</code></pre>
+<pre class="r"><code>install.packages(&quot;glmnet&quot;)</code></pre>
+<pre><code>## Installing package into &#39;/stor/home/aff395/R/x86_64-pc-linux-gnu-library/3.6&#39;
+## (as &#39;lib&#39; is unspecified)</code></pre>
+<pre class="r"><code>library(glmnet)</code></pre>
+<pre><code>## Loading required package: Matrix</code></pre>
+<pre><code>## Loaded glmnet 4.0-2</code></pre>
+<pre class="r"><code>y&lt;-as.matrix(data1$y)
+x&lt;-model.matrix(y~time+status+sex+age+year+thickness,data=data1)[,-1]
+head(x)</code></pre>
+<pre><code>##   time statusdied from melanoma statusdied from other sexMale age year
+## 1   10                        0                     1       1  76 1972
+## 2   30                        0                     1       1  56 1968
+## 3   35                        0                     0       1  41 1977
+## 4   99                        0                     1       0  71 1968
+## 5  185                        1                     0       1  52 1965
+## 6  204                        1                     0       1  28 1971
+##   thickness
+## 1      6.76
+## 2      0.65
+## 3      1.34
+## 4      2.90
+## 5     12.08
+## 6      4.84</code></pre>
+<pre class="r"><code>cv&lt;-cv.glmnet(x,y,family=&quot;binomial&quot;)
+lasso&lt;-glmnet(x,y,family=&quot;binomial&quot;,lambda=cv$lambda.1se)
+coef(lasso)</code></pre>
+<pre><code>## 8 x 1 sparse Matrix of class &quot;dgCMatrix&quot;
+##                                  s0
+## (Intercept)              -0.7293687
+## time                      .        
+## statusdied from melanoma  0.3501584
+## statusdied from other     .        
+## sexMale                   .        
+## age                       .        
+## year                      .        
+## thickness                 0.1324513</code></pre>
+<pre class="r"><code>set.seed(1234)
+k=10 
+data4&lt;-data1[sample(nrow(data1)),] 
+folds&lt;-cut(seq(1:nrow(data1)),breaks=k,labels=F) 
+diags&lt;-NULL
+for(i in 1:k){
+train&lt;-data4[folds!=i,]
+test&lt;-data4[folds==i,]
+truth&lt;-test$y 
+fit4&lt;-glm(y~status+thickness,data=data4,family=&quot;binomial&quot;)
+probs4&lt;-predict(fit4,newdata = test,type=&quot;response&quot;)
+diags&lt;-rbind(diags,class_diag(probs4,truth))
+}
+summarize_all(diags,mean)</code></pre>
+<pre><code>##         acc      sens      spec       ppv       auc
+## 1 0.7507143 0.6338709 0.8412016 0.7696825 0.8261028</code></pre>
+<p>** The accuracy came out to be 0.73, sensitivity 0.5, specificity 0.92, precision 0.83, and auc of 0.815. These numbers are all very similar as to when not all the variables were analyzed and still shows a auc number that is in the good range. When the CV was run, it showed slight changes with the classification diagnostics. The sensitivity showed large increase to 0.68 and only slight decreases in specificity and precision. The AUC was very similar to before being this time 0.816. Once lambda was run on the results, you can see that the status and thickness are the most predictive variables for an ulcer being present so they will be retained for the next test. When only thickness and status were analyzed, the values did not show significant changes, meaning that there is not much evidence of overfitting in the original model.**</p>
+<p>...</p>
+</div>
 </div>
 
             
