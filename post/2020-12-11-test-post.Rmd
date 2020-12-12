@@ -1,26 +1,42 @@
 ---
-title: Test Post
+title: "Teamwork is Dreamwork!"
 author: ''
-date: '2020-12-11'
-slug: test-post
-categories: []
-tags: []
+date: '2020-12-10'
 description: ''
+slug: test-post
+tags: []
+categories: []
 ---
-# Heading of my post!
+#Utilizing R Studio and Python!
+In this class we've seen that R and Python are two different systems that can be used in order to make data manipulation easy and convienient. However, like they say- two is better than one! Why just use Python or R, when you can use both.
 
-Content of my post
+## The Dream Team
+![](/post/2020-12-11-test-post_files/hqdefault.jpg)(width=20%)
 
-## Subheading
+By using the reticulate function, R and Python are able to communicate with each other to work togther. Below I included an example of how these two systems communicate together in action!
 
-more content
+This chunk of code is done in R and is important as it defines objects that can be retrieved in python. 
 
 ```{r}
-hist(quakes$mag)
+library(reticulate)
+we<-"Taylor Swift"
+
 ```
+In the notation above, R is used to define the object "I" as Taylor Swift. This can be retrieved in python using r.notation, as seen below by putting "r.we"
 
 
 ```{python}
+stan="is the g.o.a.t"
+print(r.we,stan)
 
 ```
+
+
+Conversely, you can also use a Python-defined object to retrieve an R code chunk by using "py$" notation. You can also see below that even though different code is used, the same message is produced as above!
+
+
+```{r}
+cat(c(we,py$stan))
+```
+
 

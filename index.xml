@@ -6,16 +6,16 @@
     <description>Recent content on My Website</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Fri, 11 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 10 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Test Post</title>
-      <link>/post/2020/12/11/test-post/</link>
-      <pubDate>Fri, 11 Dec 2020 00:00:00 +0000</pubDate>
+      <title>Teamwork is Dreamwork!</title>
+      <link>/post/2020/12/10/test-post/</link>
+      <pubDate>Thu, 10 Dec 2020 00:00:00 +0000</pubDate>
       
-      <guid>/post/2020/12/11/test-post/</guid>
-      <description> Heading of my post! Content of my post
-Subheading more content
-hist(quakes$mag)   </description>
+      <guid>/post/2020/12/10/test-post/</guid>
+      <description>Utilizing R Studio and Python! In this class we&#39;ve seen that R and Python are two different systems that can be used in order to make data manipulation easy and convienient. However, like they say- two is better than one! Why just use Python or R, when you can use both.
+The Dream Team (width=20%)
+By using the reticulate function, R and Python are able to communicate with each other to work togther.</description>
     </item>
     
     <item>
